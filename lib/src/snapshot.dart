@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 @immutable
 class Snapshot {
-  late final int milisecond;
+  late final int millisecond;
   late final int second;
   late final int minute;
   late final int hour;
@@ -12,7 +12,7 @@ class Snapshot {
   late final int year;
 
   Snapshot({
-    this.milisecond = 0,
+    this.millisecond = 0,
     this.second = 0,
     this.minute = 0,
     this.hour = 0,
@@ -24,7 +24,7 @@ class Snapshot {
   Snapshot.now() {
     final now = DateTime.now();
 
-    milisecond = now.millisecond;
+    millisecond = now.millisecond;
     second = now.second;
     minute = now.minute;
     hour = now.hour;
@@ -36,7 +36,7 @@ class Snapshot {
   @override
   bool operator ==(Object other) {
     return other is Snapshot &&
-        milisecond == other.milisecond &&
+        millisecond == other.millisecond &&
         second == other.second &&
         minute == other.minute &&
         hour == other.hour &&
@@ -47,7 +47,7 @@ class Snapshot {
 
   @override
   String toString() {
-    final ms = milisecond.toString().padLeft(6, '0');
+    final ms = millisecond.toString().padLeft(6, '0');
     final s = second.toString().padLeft(2, '0');
     final min = minute.toString().padLeft(2, '0');
     final hr = hour.toString().padLeft(2, '0');
