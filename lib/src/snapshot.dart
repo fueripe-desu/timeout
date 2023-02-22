@@ -35,6 +35,25 @@ class Snapshot {
     );
   }
 
+  Snapshot copyWith({
+    int? millisecond,
+    int? second,
+    int? minute,
+    int? hour,
+    int? day,
+    int? month,
+    int? year,
+  }) =>
+      Snapshot(
+        millisecond: millisecond ?? this.millisecond,
+        second: second ?? this.second,
+        minute: minute ?? this.minute,
+        hour: hour ?? this.hour,
+        day: day ?? this.day,
+        month: month ?? this.month,
+        year: year ?? this.year,
+      );
+
   @override
   bool operator ==(Object other) {
     return other is Snapshot &&
