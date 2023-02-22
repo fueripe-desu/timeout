@@ -1,6 +1,6 @@
-// A Snapshot is an immutable point on time
-import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
+// A Snapshot is an immutable point on time
 @immutable
 class Snapshot {
   late final int millisecond;
