@@ -68,7 +68,7 @@ class Snapshot {
 
   @override
   String toString() {
-    final ms = millisecond.toString().padLeft(6, '0');
+    final ms = millisecond.toString().padLeft(3, '0');
     final s = second.toString().padLeft(2, '0');
     final min = minute.toString().padLeft(2, '0');
     final hr = hour.toString().padLeft(2, '0');
@@ -76,7 +76,7 @@ class Snapshot {
     final m = month.toString().padLeft(2, '0');
     final y = year.toString().padLeft(4, '0');
 
-    return "$y-$m-$d $hr:$min:$s:$ms";
+    return "$y-$m-$d $hr:$min:$s.$ms";
   }
 
   @override
