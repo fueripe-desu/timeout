@@ -125,5 +125,26 @@ void main() {
       // Assert
       expect(snapshot.millisecond, equals(123));
     });
+
+    test(
+        'should throw an exception when creating snapshot with invalid date/time values',
+        () {
+      expect(() => const Snapshot(year: 0), throwsA(isA<ArgumentError>()));
+      expect(() => const Snapshot(year: -2022), throwsA(isA<ArgumentError>()));
+      expect(() => const Snapshot(month: 0), throwsA(isA<ArgumentError>()));
+      expect(() => const Snapshot(month: 13), throwsA(isA<ArgumentError>()));
+      expect(() => const Snapshot(day: 0), throwsA(isA<ArgumentError>()));
+      expect(() => const Snapshot(day: 32), throwsA(isA<ArgumentError>()));
+      expect(() => const Snapshot(hour: -1), throwsA(isA<ArgumentError>()));
+      expect(() => const Snapshot(hour: 24), throwsA(isA<ArgumentError>()));
+      expect(() => const Snapshot(minute: -1), throwsA(isA<ArgumentError>()));
+      expect(() => const Snapshot(minute: 60), throwsA(isA<ArgumentError>()));
+      expect(() => const Snapshot(second: -1), throwsA(isA<ArgumentError>()));
+      expect(() => const Snapshot(second: 60), throwsA(isA<ArgumentError>()));
+      expect(
+          () => const Snapshot(millisecond: -1), throwsA(isA<ArgumentError>()));
+      expect(() => const Snapshot(millisecond: 1000),
+          throwsA(isA<ArgumentError>()));
+    });
   });
 }
