@@ -1,12 +1,12 @@
 // A Snapshot is an immutable point on time
 class Snapshot {
-  int milisecond;
-  int second;
-  int minute;
-  int hour;
-  int day;
-  int month;
-  int year;
+  late int milisecond;
+  late int second;
+  late int minute;
+  late int hour;
+  late int day;
+  late int month;
+  late int year;
 
   Snapshot({
     this.milisecond = 0,
@@ -17,6 +17,18 @@ class Snapshot {
     this.month = 1,
     this.year = 1,
   });
+
+  Snapshot.now() {
+    final now = DateTime.now();
+
+    milisecond = now.millisecond;
+    second = now.second;
+    minute = now.minute;
+    hour = now.hour;
+    day = now.day;
+    month = now.month;
+    year = now.year;
+  }
 
   @override
   String toString() {
