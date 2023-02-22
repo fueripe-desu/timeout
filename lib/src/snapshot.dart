@@ -1,12 +1,15 @@
 // A Snapshot is an immutable point on time
+import 'package:flutter/material.dart';
+
+@immutable
 class Snapshot {
-  late int milisecond;
-  late int second;
-  late int minute;
-  late int hour;
-  late int day;
-  late int month;
-  late int year;
+  late final int milisecond;
+  late final int second;
+  late final int minute;
+  late final int hour;
+  late final int day;
+  late final int month;
+  late final int year;
 
   Snapshot({
     this.milisecond = 0,
@@ -31,6 +34,18 @@ class Snapshot {
   }
 
   @override
+  bool operator ==(Object other) {
+    return other is Snapshot &&
+        milisecond == other.milisecond &&
+        second == other.second &&
+        minute == other.minute &&
+        hour == other.hour &&
+        day == other.day &&
+        month == other.month &&
+        year == other.year;
+  }
+
+  @override
   String toString() {
     final ms = milisecond.toString().padLeft(6, '0');
     final s = second.toString().padLeft(2, '0');
@@ -42,4 +57,7 @@ class Snapshot {
 
     return "$y-$m-$d $hr:$min:$s:$ms";
   }
+
+  @override
+  int get hashCode => super.hashCode;
 }
