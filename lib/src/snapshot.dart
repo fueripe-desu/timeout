@@ -17,4 +17,17 @@ class Snapshot {
     this.month = 1,
     this.year = 1,
   });
+
+  @override
+  String toString() {
+    final ms = milisecond.toString().padLeft(6, '0');
+    final s = second.toString().padLeft(2, '0');
+    final min = minute.toString().padLeft(2, '0');
+    final hr = hour.toString().padLeft(2, '0');
+    final d = day.toString().padLeft(2, '0');
+    final m = month.toString().padLeft(2, '0');
+    final y = year.toString().padLeft(4, '0');
+
+    return "$y-$m-$d $hr:$min:$s:$ms";
+  }
 }
