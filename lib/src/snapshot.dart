@@ -3,15 +3,15 @@ import 'package:meta/meta.dart';
 // A Snapshot is an immutable point on time
 @immutable
 class Snapshot {
-  late final int millisecond;
-  late final int second;
-  late final int minute;
-  late final int hour;
-  late final int day;
-  late final int month;
-  late final int year;
+  final int millisecond;
+  final int second;
+  final int minute;
+  final int hour;
+  final int day;
+  final int month;
+  final int year;
 
-  Snapshot({
+  const Snapshot({
     this.millisecond = 0,
     this.second = 0,
     this.minute = 0,
@@ -21,16 +21,18 @@ class Snapshot {
     this.year = 1,
   });
 
-  Snapshot.now() {
+  factory Snapshot.now() {
     final now = DateTime.now();
 
-    millisecond = now.millisecond;
-    second = now.second;
-    minute = now.minute;
-    hour = now.hour;
-    day = now.day;
-    month = now.month;
-    year = now.year;
+    return Snapshot(
+      millisecond: now.millisecond,
+      second: now.second,
+      minute: now.minute,
+      hour: now.hour,
+      day: now.day,
+      month: now.month,
+      year: now.year,
+    );
   }
 
   @override
