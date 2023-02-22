@@ -53,5 +53,77 @@ void main() {
       expect(snapshot.month, equals(1));
       expect(snapshot.year, equals(1));
     });
+
+    test('should return a new Snapshot object with the updated fields', () {
+      // Arrange
+      const snapshot = Snapshot(
+        millisecond: 123,
+        second: 45,
+        minute: 30,
+        hour: 10,
+        day: 22,
+        month: 2,
+        year: 2023,
+      );
+
+      // Act
+      final updatedSnapshot = snapshot.copyWith(
+        millisecond: 456,
+        second: 15,
+        minute: 0,
+        hour: 12,
+        day: 1,
+        month: 1,
+        year: 2024,
+      );
+
+      // Assert
+      expect(updatedSnapshot.millisecond, equals(456));
+      expect(updatedSnapshot.second, equals(15));
+      expect(updatedSnapshot.minute, equals(0));
+      expect(updatedSnapshot.hour, equals(12));
+      expect(updatedSnapshot.day, equals(1));
+      expect(updatedSnapshot.month, equals(1));
+      expect(updatedSnapshot.year, equals(2024));
+    });
+
+    test('should return the original Snapshot object if no fields are updated',
+        () {
+      // Arrange
+      const snapshot = Snapshot(
+        millisecond: 123,
+        second: 45,
+        minute: 30,
+        hour: 10,
+        day: 22,
+        month: 2,
+        year: 2023,
+      );
+
+      // Act
+      final updatedSnapshot = snapshot.copyWith();
+
+      // Assert
+      expect(updatedSnapshot, equals(snapshot));
+    });
+
+    test('should not modify the original Snapshot object', () {
+      // Arrange
+      const snapshot = Snapshot(
+        millisecond: 123,
+        second: 45,
+        minute: 30,
+        hour: 10,
+        day: 22,
+        month: 2,
+        year: 2023,
+      );
+
+      // Act
+      snapshot.copyWith(millisecond: 456);
+
+      // Assert
+      expect(snapshot.millisecond, equals(123));
+    });
   });
 }
