@@ -36,7 +36,7 @@ class Snapshot {
   }
 
   bool get isLeapYear => _isLeapYear(year);
-  int get daysInMonth => _daysInMonth(month);
+  int get daysInMonth => _daysInMonth(month, year);
 
   bool _isLeapYear(int year) {
     return year % 4 == 0
@@ -48,7 +48,7 @@ class Snapshot {
         : false;
   }
 
-  int _daysInMonth(int month) {
+  int _daysInMonth(int month, int year) {
     // February has 29 days in leap years and 28 days in normal years.
     if (month == 2) {
       if (_isLeapYear(year)) {
