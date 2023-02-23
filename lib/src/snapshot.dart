@@ -87,8 +87,53 @@ class Snapshot {
     }
   }
 
-  factory Snapshot.fromJson(String source) =>
-      Snapshot.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Snapshot.fromJson(String source) {
+    try {
+      final map = json.decode(source) as Map<String, dynamic>;
+
+      final millisecond = map['millisecond'] as int?;
+      final second = map['second'] as int?;
+      final minute = map['minute'] as int?;
+      final hour = map['hour'] as int?;
+      final day = map['day'] as int?;
+      final month = map['month'] as int?;
+      final year = map['year'] as int?;
+
+      if (millisecond == null) {
+        throw const FormatException("Missing millisecond field.");
+      }
+      if (second == null) {
+        throw const FormatException("Missing second field.");
+      }
+      if (minute == null) {
+        throw const FormatException("Missing minute field.");
+      }
+      if (hour == null) {
+        throw const FormatException("Missing hour field.");
+      }
+      if (day == null) {
+        throw const FormatException("Missing day field.");
+      }
+      if (month == null) {
+        throw const FormatException("Missing month field.");
+      }
+      if (year == null) {
+        throw const FormatException("Missing year field.");
+      }
+
+      return Snapshot(
+        millisecond: millisecond,
+        second: second,
+        minute: minute,
+        hour: hour,
+        day: day,
+        month: month,
+        year: year,
+      );
+    } catch (err) {
+      throw FormatException('Invalid JSON string: $err');
+    }
+  }
 
   bool get isLeapYear => _isLeapYear(year);
   int get daysInMonth => _daysInMonth(month, year);
