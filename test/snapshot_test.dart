@@ -25,7 +25,7 @@ void main() {
     });
 
     test('should create a snapshot with the provided date and time', () {
-      const snapshot = Snapshot(
+      final snapshot = Snapshot(
         millisecond: 123,
         second: 45,
         minute: 30,
@@ -44,7 +44,7 @@ void main() {
     });
 
     test('should create a snapshot with default values if not provided', () {
-      const snapshot = Snapshot();
+      final snapshot = Snapshot();
       expect(snapshot.millisecond, equals(0));
       expect(snapshot.second, equals(0));
       expect(snapshot.minute, equals(0));
@@ -56,7 +56,7 @@ void main() {
 
     test('should return a new Snapshot object with the updated fields', () {
       // Arrange
-      const snapshot = Snapshot(
+      final snapshot = Snapshot(
         millisecond: 123,
         second: 45,
         minute: 30,
@@ -90,7 +90,7 @@ void main() {
     test('should return the original Snapshot object if no fields are updated',
         () {
       // Arrange
-      const snapshot = Snapshot(
+      final snapshot = Snapshot(
         millisecond: 123,
         second: 45,
         minute: 30,
@@ -109,7 +109,7 @@ void main() {
 
     test('should not modify the original Snapshot object', () {
       // Arrange
-      const snapshot = Snapshot(
+      final snapshot = Snapshot(
         millisecond: 123,
         second: 45,
         minute: 30,
@@ -221,22 +221,20 @@ void main() {
     test(
         'should throw an exception when creating snapshot with invalid date/time values',
         () {
-      expect(() => const Snapshot(year: 0), throwsA(isA<ArgumentError>()));
-      expect(() => const Snapshot(year: -2022), throwsA(isA<ArgumentError>()));
-      expect(() => const Snapshot(month: 0), throwsA(isA<ArgumentError>()));
-      expect(() => const Snapshot(month: 13), throwsA(isA<ArgumentError>()));
-      expect(() => const Snapshot(day: 0), throwsA(isA<ArgumentError>()));
-      expect(() => const Snapshot(day: 32), throwsA(isA<ArgumentError>()));
-      expect(() => const Snapshot(hour: -1), throwsA(isA<ArgumentError>()));
-      expect(() => const Snapshot(hour: 24), throwsA(isA<ArgumentError>()));
-      expect(() => const Snapshot(minute: -1), throwsA(isA<ArgumentError>()));
-      expect(() => const Snapshot(minute: 60), throwsA(isA<ArgumentError>()));
-      expect(() => const Snapshot(second: -1), throwsA(isA<ArgumentError>()));
-      expect(() => const Snapshot(second: 60), throwsA(isA<ArgumentError>()));
-      expect(
-          () => const Snapshot(millisecond: -1), throwsA(isA<ArgumentError>()));
-      expect(() => const Snapshot(millisecond: 1000),
-          throwsA(isA<ArgumentError>()));
+      expect(() => Snapshot(year: 0), throwsA(isA<Exception>()));
+      expect(() => Snapshot(year: -2022), throwsA(isA<Exception>()));
+      expect(() => Snapshot(month: 0), throwsA(isA<Exception>()));
+      expect(() => Snapshot(month: 13), throwsA(isA<Exception>()));
+      expect(() => Snapshot(day: 0), throwsA(isA<Exception>()));
+      expect(() => Snapshot(day: 32), throwsA(isA<Exception>()));
+      expect(() => Snapshot(hour: -1), throwsA(isA<Exception>()));
+      expect(() => Snapshot(hour: 24), throwsA(isA<Exception>()));
+      expect(() => Snapshot(minute: -1), throwsA(isA<Exception>()));
+      expect(() => Snapshot(minute: 60), throwsA(isA<Exception>()));
+      expect(() => Snapshot(second: -1), throwsA(isA<Exception>()));
+      expect(() => Snapshot(second: 60), throwsA(isA<Exception>()));
+      expect(() => Snapshot(millisecond: -1), throwsA(isA<Exception>()));
+      expect(() => Snapshot(millisecond: 1000), throwsA(isA<Exception>()));
     });
   });
 }

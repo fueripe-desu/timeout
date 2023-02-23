@@ -11,7 +11,7 @@ class Snapshot {
   final int month;
   final int year;
 
-  const Snapshot({
+  Snapshot({
     this.millisecond = 0,
     this.second = 0,
     this.minute = 0,
@@ -19,7 +19,41 @@ class Snapshot {
     this.day = 1,
     this.month = 1,
     this.year = 1,
-  });
+  }) {
+    try {
+      if (year < 1 || year > 275760) {
+        throw Exception("Year must be between 1 and 275760.");
+      }
+
+      if (month < 1 || month > 12) {
+        throw Exception("Month must be between 1 and 12.");
+      }
+
+      if (day < 1 || day > _daysInMonth(month, year)) {
+        throw Exception(
+            "Days must be between 1 and ${_daysInMonth(month, year)}.");
+      }
+
+      if (hour < 0 || hour > 23) {
+        throw Exception("Hours must be between 0 and 23.");
+      }
+
+      if (minute < 0 || minute > 59) {
+        throw Exception("Minutes must be between 0 and 59.");
+      }
+
+      if (second < 0 || second > 59) {
+        throw Exception("Seconds must be between 0 and 59.");
+      }
+
+      if (millisecond < 0 || millisecond > 999) {
+        throw Exception("Milliseconds must be between 0 and 999.");
+      }
+    } catch (err) {
+      print("Unkown error: ${err}");
+      rethrow;
+    }
+  }
 
   factory Snapshot.now() {
     final now = DateTime.now();
