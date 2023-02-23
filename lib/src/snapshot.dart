@@ -36,6 +36,7 @@ class Snapshot {
   }
 
   bool get isLeapYear => _isLeapYear(year);
+  int get daysInMonth => _daysInMonth(month);
 
   bool _isLeapYear(int year) {
     return year % 4 == 0
@@ -45,6 +46,24 @@ class Snapshot {
                 : false
             : true
         : false;
+  }
+
+  int _daysInMonth(int month) {
+    // February has 29 days in leap years and 28 days in normal years.
+    if (month == 2) {
+      if (_isLeapYear(year)) {
+        return 29;
+      } else {
+        return 28;
+      }
+    }
+
+    // April, June, September and November have all 30 days.
+    if ([4, 6, 9, 11].contains(month)) {
+      return 30;
+    }
+
+    return 31;
   }
 
   Snapshot copyWith({
