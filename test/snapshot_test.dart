@@ -153,6 +153,71 @@ void main() {
       expect(snapshot.isLeapYear, isFalse);
     });
 
+    test('should return 31 for January', () {
+      final snapshot = Snapshot(year: 2022, month: 1);
+      expect(snapshot.daysInMonth, 31);
+    });
+
+    test('should return 28 for February in a normal year', () {
+      final snapshot = Snapshot(year: 2021, month: 2);
+      expect(snapshot.daysInMonth, 28);
+    });
+
+    test('should return 29 for February in a leap year', () {
+      final snapshot = Snapshot(year: 2024, month: 2);
+      expect(snapshot.daysInMonth, 29);
+    });
+
+    test('should return 31 for March', () {
+      final snapshot = Snapshot(year: 2022, month: 3);
+      expect(snapshot.daysInMonth, 31);
+    });
+
+    test('should return 30 for April', () {
+      final snapshot = Snapshot(year: 2022, month: 4);
+      expect(snapshot.daysInMonth, 30);
+    });
+
+    test('should return 31 for May', () {
+      final snapshot = Snapshot(year: 2022, month: 5);
+      expect(snapshot.daysInMonth, 31);
+    });
+
+    test('should return 30 for June', () {
+      final snapshot = Snapshot(year: 2022, month: 6);
+      expect(snapshot.daysInMonth, 30);
+    });
+
+    test('should return 31 for July', () {
+      final snapshot = Snapshot(year: 2022, month: 7);
+      expect(snapshot.daysInMonth, 31);
+    });
+
+    test('should return 31 for August', () {
+      final snapshot = Snapshot(year: 2022, month: 8);
+      expect(snapshot.daysInMonth, 31);
+    });
+
+    test('should return 30 for September', () {
+      final snapshot = Snapshot(year: 2022, month: 9);
+      expect(snapshot.daysInMonth, 30);
+    });
+
+    test('should return 31 for October', () {
+      final snapshot = Snapshot(year: 2022, month: 10);
+      expect(snapshot.daysInMonth, 31);
+    });
+
+    test('should return 30 for November', () {
+      final snapshot = Snapshot(year: 2022, month: 11);
+      expect(snapshot.daysInMonth, 30);
+    });
+
+    test('should return 31 for December', () {
+      final snapshot = Snapshot(year: 2022, month: 12);
+      expect(snapshot.daysInMonth, 31);
+    });
+
     test(
         'should throw an exception when creating snapshot with invalid date/time values',
         () {
