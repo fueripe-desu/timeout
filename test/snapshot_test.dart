@@ -844,5 +844,41 @@ void main() {
       );
       expect(snapshot1.hashCode, isNot(snapshot2.hashCode));
     });
+
+    test('should return a map with all snapshot values', () {
+      final snapshot = Snapshot(
+        year: 2022,
+        month: 2,
+        day: 15,
+        hour: 10,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      final expectedMap = <String, dynamic>{
+        'millisecond': 500,
+        'second': 45,
+        'minute': 30,
+        'hour': 10,
+        'day': 15,
+        'month': 2,
+        'year': 2022,
+      };
+      expect(snapshot.toMap(), equals(expectedMap));
+    });
+
+    test('should return a map with default snapshot values', () {
+      final snapshot = Snapshot();
+      final expectedMap = <String, dynamic>{
+        'millisecond': 0,
+        'second': 0,
+        'minute': 0,
+        'hour': 0,
+        'day': 1,
+        'month': 1,
+        'year': 1970,
+      };
+      expect(snapshot.toMap(), equals(expectedMap));
+    });
   });
 }
