@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:meta/meta.dart';
 
 // A Snapshot is an immutable point on time
@@ -81,6 +83,9 @@ class Snapshot {
     );
   }
 
+  factory Snapshot.fromJson(String source) =>
+      Snapshot.fromMap(json.decode(source) as Map<String, dynamic>);
+
   bool get isLeapYear => _isLeapYear(year);
   int get daysInMonth => _daysInMonth(month, year);
 
@@ -136,6 +141,8 @@ class Snapshot {
       'year': year,
     };
   }
+
+  String toJson() => json.encode(toMap());
 
   @override
   bool operator ==(Object other) {
