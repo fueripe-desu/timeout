@@ -880,5 +880,141 @@ void main() {
       };
       expect(snapshot.toMap(), equals(expectedMap));
     });
+
+    test('should return a snapshot from a valid map', () {
+      final map = <String, dynamic>{
+        'millisecond': 0,
+        'second': 0,
+        'minute': 0,
+        'hour': 0,
+        'day': 1,
+        'month': 1,
+        'year': 2022,
+      };
+      final snapshot = Snapshot.fromMap(map);
+      expect(snapshot.millisecond, 0);
+      expect(snapshot.second, 0);
+      expect(snapshot.minute, 0);
+      expect(snapshot.hour, 0);
+      expect(snapshot.day, 1);
+      expect(snapshot.month, 1);
+      expect(snapshot.year, 2022);
+    });
+
+    test('should throw a format exception for an invalid map', () {
+      final map = <String, dynamic>{
+        'millisecond': 0,
+        'second': 'invalid',
+        'minute': 0,
+        'hour': 0,
+        'day': 1,
+        'month': 1,
+        'year': 2022,
+      };
+      expect(() => Snapshot.fromMap(map), throwsFormatException);
+    });
+
+    test('should throw a format exception for a map with missing fields', () {
+      final map = <String, dynamic>{
+        'millisecond': 0,
+        'second': 0,
+        'minute': 0,
+        'hour': 0,
+        'day': 1,
+        'month': 1,
+      };
+      expect(() => Snapshot.fromMap(map), throwsFormatException);
+    });
+
+    test('should throw an ArgumentError for invalid millisecond', () {
+      final map = <String, dynamic>{
+        'millisecond': -1,
+        'second': 0,
+        'minute': 0,
+        'hour': 0,
+        'day': 1,
+        'month': 1,
+        'year': 2022,
+      };
+      expect(() => Snapshot.fromMap(map), throwsException);
+    });
+
+    test('should throw an ArgumentError for invalid second', () {
+      final map = <String, dynamic>{
+        'millisecond': 0,
+        'second': 60,
+        'minute': 0,
+        'hour': 0,
+        'day': 1,
+        'month': 1,
+        'year': 2022,
+      };
+      expect(() => Snapshot.fromMap(map), throwsException);
+    });
+
+    test('should throw an ArgumentError for invalid minute', () {
+      final map = <String, dynamic>{
+        'millisecond': 0,
+        'second': 0,
+        'minute': 60,
+        'hour': 0,
+        'day': 1,
+        'month': 1,
+        'year': 2022,
+      };
+      expect(() => Snapshot.fromMap(map), throwsException);
+    });
+
+    test('should throw an ArgumentError for invalid hour', () {
+      final map = <String, dynamic>{
+        'millisecond': 0,
+        'second': 0,
+        'minute': 0,
+        'hour': 24,
+        'day': 1,
+        'month': 1,
+        'year': 2022,
+      };
+      expect(() => Snapshot.fromMap(map), throwsException);
+    });
+
+    test('should throw an ArgumentError for invalid day', () {
+      final map = <String, dynamic>{
+        'millisecond': 0,
+        'second': 0,
+        'minute': 0,
+        'hour': 0,
+        'day': 32,
+        'month': 1,
+        'year': 2022,
+      };
+      expect(() => Snapshot.fromMap(map), throwsException);
+    });
+
+    test('should throw an ArgumentError for invalid month', () {
+      final map = <String, dynamic>{
+        'millisecond': 0,
+        'second': 0,
+        'minute': 0,
+        'hour': 0,
+        'day': 1,
+        'month': 13,
+        'year': 2022,
+      };
+      expect(() => Snapshot.fromMap(map), throwsException);
+    });
+
+    test('should throw an ArgumentError for invalid year', () {
+      final map = <String, dynamic>{
+        'millisecond': 0,
+        'second': 0,
+        'minute': 0,
+        'hour': 0,
+        'day': 1,
+        'month': 1,
+        'year': -2022,
+      };
+      expect(() => Snapshot.fromMap(map), throwsException);
+    });
   });
 }
