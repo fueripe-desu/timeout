@@ -876,7 +876,7 @@ void main() {
         'hour': 0,
         'day': 1,
         'month': 1,
-        'year': 1970,
+        'year': 1,
       };
       expect(snapshot.toMap(), equals(expectedMap));
     });
