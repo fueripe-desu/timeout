@@ -35,6 +35,10 @@ class Snapshot {
     );
   }
 
+  bool isLeapYear() {
+    return true;
+  }
+
   Snapshot copyWith({
     int? millisecond,
     int? second,

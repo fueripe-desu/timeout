@@ -126,6 +126,33 @@ void main() {
       expect(snapshot.millisecond, equals(123));
     });
 
+    test('should return true for leap years', () {
+      expect(Snapshot(year: 2020).isLeapYear(), isTrue);
+      expect(Snapshot(year: 2000).isLeapYear(), isTrue);
+      expect(Snapshot(year: 1600).isLeapYear(), isTrue);
+    });
+
+    test('should return false for non-leap years', () {
+      expect(Snapshot(year: 2021).isLeapYear(), isFalse);
+      expect(Snapshot(year: 1900).isLeapYear(), isFalse);
+      expect(Snapshot(year: 1700).isLeapYear(), isFalse);
+    });
+
+    test('should return false for non-leap year divisible by 100', () {
+      final snapshot = Snapshot(year: 1900);
+      expect(snapshot.isLeapYear(), isFalse);
+    });
+
+    test('should return true for leap year divisible by 4 but not by 100', () {
+      final snapshot = Snapshot(year: 2024);
+      expect(snapshot.isLeapYear(), isTrue);
+    });
+
+    test('should return false for non-leap year not divisible by 4', () {
+      final snapshot = Snapshot(year: 2023);
+      expect(snapshot.isLeapYear(), isFalse);
+    });
+
     test(
         'should throw an exception when creating snapshot with invalid date/time values',
         () {
