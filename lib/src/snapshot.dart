@@ -72,15 +72,19 @@ class Snapshot {
   }
 
   factory Snapshot.fromMap(Map<String, dynamic> map) {
-    return Snapshot(
-      millisecond: map['millisecond'] as int,
-      second: map['second'] as int,
-      minute: map['minute'] as int,
-      hour: map['hour'] as int,
-      day: map['day'] as int,
-      month: map['month'] as int,
-      year: map['year'] as int,
-    );
+    try {
+      return Snapshot(
+        millisecond: map['millisecond'] as int,
+        second: map['second'] as int,
+        minute: map['minute'] as int,
+        hour: map['hour'] as int,
+        day: map['day'] as int,
+        month: map['month'] as int,
+        year: map['year'] as int,
+      );
+    } catch (err) {
+      throw FormatException('Invalid map: $err');
+    }
   }
 
   factory Snapshot.fromJson(String source) =>
