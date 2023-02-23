@@ -1016,5 +1016,26 @@ void main() {
       };
       expect(() => Snapshot.fromMap(map), throwsException);
     });
+
+    test('should return a valid JSON string with default snapshot values', () {
+      final snapshot = Snapshot();
+
+      expect(snapshot.toJson(),
+          '{"millisecond":0,"second":0,"minute":0,"hour":0,"day":1,"month":1,"year":1}');
+    });
+
+    test('should return a valid JSON string with provided snapshot values', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 2,
+          day: 22,
+          hour: 13,
+          minute: 30,
+          second: 45,
+          millisecond: 500);
+
+      expect(snapshot.toJson(),
+          '{"millisecond":500,"second":45,"minute":30,"hour":13,"day":22,"month":2,"year":2022}');
+    });
   });
 }
