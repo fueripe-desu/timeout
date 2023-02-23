@@ -69,6 +69,18 @@ class Snapshot {
     );
   }
 
+  factory Snapshot.fromMap(Map<String, dynamic> map) {
+    return Snapshot(
+      millisecond: map['millisecond'] as int,
+      second: map['second'] as int,
+      minute: map['minute'] as int,
+      hour: map['hour'] as int,
+      day: map['day'] as int,
+      month: map['month'] as int,
+      year: map['year'] as int,
+    );
+  }
+
   bool get isLeapYear => _isLeapYear(year);
   int get daysInMonth => _daysInMonth(month, year);
 
@@ -112,6 +124,18 @@ class Snapshot {
         month: month ?? this.month,
         year: year ?? this.year,
       );
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'millisecond': millisecond,
+      'second': second,
+      'minute': minute,
+      'hour': hour,
+      'day': day,
+      'month': month,
+      'year': year,
+    };
+  }
 
   @override
   bool operator ==(Object other) {
