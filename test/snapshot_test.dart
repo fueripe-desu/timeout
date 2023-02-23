@@ -658,5 +658,191 @@ void main() {
       expect(() => Snapshot(millisecond: -1), throwsA(isA<Exception>()));
       expect(() => Snapshot(millisecond: 1000), throwsA(isA<Exception>()));
     });
+
+    test('should return the same hash code for equal Snapshots', () {
+      final snapshot1 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      final snapshot2 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      expect(snapshot1.hashCode, equals(snapshot2.hashCode));
+    });
+
+    test('should return different hash codes for Snapshots with different year',
+        () {
+      final snapshot1 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      final snapshot2 = Snapshot(
+        year: 2023,
+        month: 3,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      expect(snapshot1.hashCode, isNot(snapshot2.hashCode));
+    });
+
+    test(
+        'should return different hash codes for Snapshots with different month',
+        () {
+      final snapshot1 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      final snapshot2 = Snapshot(
+        year: 2022,
+        month: 4,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      expect(snapshot1.hashCode, isNot(snapshot2.hashCode));
+    });
+
+    test('should return different hash codes for Snapshots with different day',
+        () {
+      final snapshot1 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      final snapshot2 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 2,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      expect(snapshot1.hashCode, isNot(snapshot2.hashCode));
+    });
+
+    test('should return different hash codes for Snapshots with different hour',
+        () {
+      final snapshot1 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      final snapshot2 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 1,
+        hour: 13,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      expect(snapshot1.hashCode, isNot(snapshot2.hashCode));
+    });
+
+    test(
+        'should return different hash codes for Snapshots with different minute',
+        () {
+      final snapshot1 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      final snapshot2 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 1,
+        hour: 12,
+        minute: 31,
+        second: 45,
+        millisecond: 500,
+      );
+      expect(snapshot1.hashCode, isNot(snapshot2.hashCode));
+    });
+
+    test(
+        'should return different hash codes for Snapshots with different second',
+        () {
+      final snapshot1 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      final snapshot2 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 46,
+        millisecond: 500,
+      );
+      expect(snapshot1.hashCode, isNot(snapshot2.hashCode));
+    });
+    test(
+        'should return different hash codes for Snapshots with different millisecond',
+        () {
+      final snapshot1 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+      final snapshot2 = Snapshot(
+        year: 2022,
+        month: 3,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 501,
+      );
+      expect(snapshot1.hashCode, isNot(snapshot2.hashCode));
+    });
   });
 }
