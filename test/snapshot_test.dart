@@ -1037,5 +1037,47 @@ void main() {
       expect(snapshot.toJson(),
           '{"millisecond":500,"second":45,"minute":30,"hour":13,"day":22,"month":2,"year":2022}');
     });
+
+    test('fromJson() should return a Snapshot object from valid JSON', () {
+      final jsonStr =
+          '{"millisecond": 500, "second": 59, "minute": 30, "hour": 12, "day": 15, "month": 2, "year": 2022}';
+      final snapshot = Snapshot.fromJson(jsonStr);
+
+      expect(snapshot.millisecond, 500);
+      expect(snapshot.second, 59);
+      expect(snapshot.minute, 30);
+      expect(snapshot.hour, 12);
+      expect(snapshot.day, 15);
+      expect(snapshot.month, 2);
+      expect(snapshot.year, 2022);
+    });
+
+    test('fromJson() should throw a FormatException for invalid JSON', () {
+      expect(() => Snapshot.fromJson('invalid json'),
+          throwsA(isA<FormatException>()));
+    });
+
+    test(
+        'fromJson() should throw a FormatException for JSON with missing fields',
+        () {
+      final jsonStr = '{"millisecond": 500, "second": 59, "minute": 30}';
+      expect(() => Snapshot.fromJson(jsonStr), throwsA(isA<FormatException>()));
+    });
+
+    test('should throw a FormatException for an invalid JSON string', () {
+      expect(() => Snapshot.fromJson('{invalid json}'), throwsFormatException);
+    });
+
+    test('should throw a FormatException if any field is missing', () {
+      expect(() => Snapshot.fromJson('{}'), throwsFormatException);
+      expect(() => Snapshot.fromJson('{"millisecond": 100}'),
+          throwsFormatException);
+      expect(() => Snapshot.fromJson('{"second": 30}'), throwsFormatException);
+      expect(() => Snapshot.fromJson('{"minute": 15}'), throwsFormatException);
+      expect(() => Snapshot.fromJson('{"hour": 2}'), throwsFormatException);
+      expect(() => Snapshot.fromJson('{"day": 1}'), throwsFormatException);
+      expect(() => Snapshot.fromJson('{"month": 12}'), throwsFormatException);
+      expect(() => Snapshot.fromJson('{"year": 2022}'), throwsFormatException);
+    });
   });
 }
