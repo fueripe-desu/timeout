@@ -139,5 +139,13 @@ class Snapshot {
   }
 
   @override
-  int get hashCode => super.hashCode;
+  int get hashCode {
+    return millisecond.hashCode ^
+        second.hashCode ^
+        minute.hashCode ^
+        hour.hashCode ^
+        day.hashCode ^
+        month.hashCode ^
+        year.hashCode;
+  }
 }
