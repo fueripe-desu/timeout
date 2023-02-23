@@ -39,13 +39,7 @@ class Snapshot {
   int get daysInMonth => _daysInMonth(month, year);
 
   bool _isLeapYear(int year) {
-    return year % 4 == 0
-        ? year % 100 == 0
-            ? year % 400 == 0
-                ? true
-                : false
-            : true
-        : false;
+    return year % 4 == 0 && (!(year % 100 == 0) || year % 400 == 0);
   }
 
   int _daysInMonth(int month, int year) {
