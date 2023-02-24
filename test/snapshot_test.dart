@@ -1039,7 +1039,7 @@ void main() {
     });
 
     test('fromJson() should return a Snapshot object from valid JSON', () {
-      final jsonStr =
+      const jsonStr =
           '{"millisecond": 500, "second": 59, "minute": 30, "hour": 12, "day": 15, "month": 2, "year": 2022}';
       final snapshot = Snapshot.fromJson(jsonStr);
 
@@ -1060,7 +1060,7 @@ void main() {
     test(
         'fromJson() should throw a FormatException for JSON with missing fields',
         () {
-      final jsonStr = '{"millisecond": 500, "second": 59, "minute": 30}';
+      const jsonStr = '{"millisecond": 500, "second": 59, "minute": 30}';
       expect(() => Snapshot.fromJson(jsonStr), throwsA(isA<FormatException>()));
     });
 

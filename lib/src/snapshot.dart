@@ -52,7 +52,7 @@ class Snapshot {
         throw Exception("Milliseconds must be between 0 and 999.");
       }
     } catch (err) {
-      print("Unkown error: ${err}");
+      print("Error creating Snapshot: $err");
       rethrow;
     }
   }
