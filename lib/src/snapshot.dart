@@ -26,16 +26,25 @@ class Snapshot {
   }) {
     try {
       if (year < 1 || year > 275760) {
-        throw SnapshotDateError("Year must be between 1 and 275760.");
+        throw SnapshotDateError("Year must be between 1 and 275760.",
+            InvalidDate(day, month, year, "year"),
+            hint:
+                "Try correcting the year passed to Snapshot() or Snapshot.copyWith() to a value in the accepted range");
       }
 
       if (month < 1 || month > 12) {
-        throw SnapshotDateError("Month must be between 1 and 12.");
+        throw SnapshotDateError("Month must be between 1 and 12.",
+            InvalidDate(day, month, year, "month"),
+            hint:
+                "Try correcting the month passed to Snapshot() or Snapshot.copyWith() to a value between 1 and 12");
       }
 
       if (day < 1 || day > _daysInMonth(month, year)) {
         throw SnapshotDateError(
-            "Days must be between 1 and ${_daysInMonth(month, year)}.");
+            "Days must be between 1 and ${_daysInMonth(month, year)}.",
+            InvalidDate(day, month, year, "day"),
+            hint:
+                "Try correcting the day passed to Snapshot() or Snapshot.copyWith() to a value between 1 and ${_daysInMonth(month, year)}");
       }
 
       if (hour < 0 || hour > 23) {
