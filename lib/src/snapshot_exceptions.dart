@@ -30,3 +30,14 @@ class SnapshotMissingField extends FormatException {
     return "$runtimeType: $message";
   }
 }
+
+class SnapshotError implements Exception {
+  final String errMessage;
+
+  SnapshotError(this.errMessage);
+
+  @override
+  String toString() {
+    return "$runtimeType: $errMessage";
+  }
+}
