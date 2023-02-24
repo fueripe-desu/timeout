@@ -48,19 +48,39 @@ class Snapshot {
       }
 
       if (hour < 0 || hour > 23) {
-        throw SnapshotTimeError("Hours must be between 0 and 23.");
+        throw SnapshotTimeError(
+          "Hours must be between 0 and 23.",
+          InvalidTime(millisecond, second, minute, hour, "hour"),
+          hint:
+              "Try correcting the hour passed to Snapshot() or Snapshot.copyWith() to a value between 0 and 23",
+        );
       }
 
       if (minute < 0 || minute > 59) {
-        throw SnapshotTimeError("Minutes must be between 0 and 59.");
+        throw SnapshotTimeError(
+          "Minutes must be between 0 and 59.",
+          InvalidTime(millisecond, second, minute, hour, "minute"),
+          hint:
+              "Try correcting the minute passed to Snapshot() or Snapshot.copyWith() to a value between 0 and 59",
+        );
       }
 
       if (second < 0 || second > 59) {
-        throw SnapshotTimeError("Seconds must be between 0 and 59.");
+        throw SnapshotTimeError(
+          "Seconds must be between 0 and 59.",
+          InvalidTime(millisecond, second, minute, hour, "second"),
+          hint:
+              "Try correcting the second passed to Snapshot() or Snapshot.copyWith() to a value between 0 and 59",
+        );
       }
 
       if (millisecond < 0 || millisecond > 999) {
-        throw SnapshotTimeError("Milliseconds must be between 0 and 999.");
+        throw SnapshotTimeError(
+          "Milliseconds must be between 0 and 999.",
+          InvalidTime(millisecond, second, minute, hour, "millisecond"),
+          hint:
+              "Try correcting the millisecond passed to Snapshot() or Snapshot.copyWith() to a value between 0 and 999",
+        );
       }
     } catch (err) {
       print("Error creating Snapshot: $err");
