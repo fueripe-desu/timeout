@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:meta/meta.dart';
 
+import 'snapshot_exceptions.dart';
+
 // A Snapshot is an immutable point on time
 @immutable
 class Snapshot {
@@ -24,32 +26,32 @@ class Snapshot {
   }) {
     try {
       if (year < 1 || year > 275760) {
-        throw Exception("Year must be between 1 and 275760.");
+        throw SnapshotDateError("Year must be between 1 and 275760.");
       }
 
       if (month < 1 || month > 12) {
-        throw Exception("Month must be between 1 and 12.");
+        throw SnapshotDateError("Month must be between 1 and 12.");
       }
 
       if (day < 1 || day > _daysInMonth(month, year)) {
-        throw Exception(
+        throw SnapshotDateError(
             "Days must be between 1 and ${_daysInMonth(month, year)}.");
       }
 
       if (hour < 0 || hour > 23) {
-        throw Exception("Hours must be between 0 and 23.");
+        throw SnapshotTimeError("Hours must be between 0 and 23.");
       }
 
       if (minute < 0 || minute > 59) {
-        throw Exception("Minutes must be between 0 and 59.");
+        throw SnapshotTimeError("Minutes must be between 0 and 59.");
       }
 
       if (second < 0 || second > 59) {
-        throw Exception("Seconds must be between 0 and 59.");
+        throw SnapshotTimeError("Seconds must be between 0 and 59.");
       }
 
       if (millisecond < 0 || millisecond > 999) {
-        throw Exception("Milliseconds must be between 0 and 999.");
+        throw SnapshotTimeError("Milliseconds must be between 0 and 999.");
       }
     } catch (err) {
       print("Error creating Snapshot: $err");
