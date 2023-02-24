@@ -3,27 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:timeout/timeout.dart';
 
 void main() {
-  group('Snapshot', () {
-    test('should create a snapshot with the current date and time', () {
-      final now = DateTime.now();
-      final snapshot = Snapshot(
-        millisecond: now.millisecond,
-        second: now.second,
-        minute: now.minute,
-        hour: now.hour,
-        day: now.day,
-        month: now.month,
-        year: now.year,
-      );
-      expect(snapshot.millisecond, equals(now.millisecond));
-      expect(snapshot.second, equals(now.second));
-      expect(snapshot.minute, equals(now.minute));
-      expect(snapshot.hour, equals(now.hour));
-      expect(snapshot.day, equals(now.day));
-      expect(snapshot.month, equals(now.month));
-      expect(snapshot.year, equals(now.year));
-    });
-
+  group('Snapshot constructor', () {
     test('should create a snapshot with the provided date and time', () {
       final snapshot = Snapshot(
         millisecond: 123,
@@ -54,6 +34,54 @@ void main() {
       expect(snapshot.year, equals(1));
     });
 
+    test(
+        'should throw an exception when creating snapshot with invalid date/time values',
+        () {
+      expect(() => Snapshot(year: 0), throwsA(isA<Exception>()));
+      expect(() => Snapshot(year: -2022), throwsA(isA<Exception>()));
+      expect(() => Snapshot(year: 275761), throwsA(isA<Exception>()));
+      expect(() => Snapshot(month: 0), throwsA(isA<Exception>()));
+      expect(() => Snapshot(month: 13), throwsA(isA<Exception>()));
+      expect(() => Snapshot(day: 0), throwsA(isA<Exception>()));
+      expect(() => Snapshot(day: 32), throwsA(isA<Exception>()));
+      expect(() => Snapshot(day: 30, month: 2, year: 2024),
+          throwsA(isA<Exception>()));
+      expect(() => Snapshot(day: 30, month: 2, year: 2021),
+          throwsA(isA<Exception>()));
+      expect(() => Snapshot(hour: -1), throwsA(isA<Exception>()));
+      expect(() => Snapshot(hour: 24), throwsA(isA<Exception>()));
+      expect(() => Snapshot(minute: -1), throwsA(isA<Exception>()));
+      expect(() => Snapshot(minute: 60), throwsA(isA<Exception>()));
+      expect(() => Snapshot(second: -1), throwsA(isA<Exception>()));
+      expect(() => Snapshot(second: 60), throwsA(isA<Exception>()));
+      expect(() => Snapshot(millisecond: -1), throwsA(isA<Exception>()));
+      expect(() => Snapshot(millisecond: 1000), throwsA(isA<Exception>()));
+    });
+  });
+
+  group("Snapshot now() factory", () {
+    test('should create a snapshot with the current date and time', () {
+      final now = DateTime.now();
+      final snapshot = Snapshot(
+        millisecond: now.millisecond,
+        second: now.second,
+        minute: now.minute,
+        hour: now.hour,
+        day: now.day,
+        month: now.month,
+        year: now.year,
+      );
+      expect(snapshot.millisecond, equals(now.millisecond));
+      expect(snapshot.second, equals(now.second));
+      expect(snapshot.minute, equals(now.minute));
+      expect(snapshot.hour, equals(now.hour));
+      expect(snapshot.day, equals(now.day));
+      expect(snapshot.month, equals(now.month));
+      expect(snapshot.year, equals(now.year));
+    });
+  });
+
+  group("Snapshot copyWith() method", (() {
     test('should return a new Snapshot object with the updated fields', () {
       // Arrange
       final snapshot = Snapshot(
@@ -126,33 +154,412 @@ void main() {
       expect(snapshot.millisecond, equals(123));
     });
 
-    test('should return true for leap years', () {
-      expect(Snapshot(year: 2020).isLeapYear, isTrue);
-      expect(Snapshot(year: 2000).isLeapYear, isTrue);
-      expect(Snapshot(year: 1600).isLeapYear, isTrue);
+    test('should return a new Snapshot with updated year', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final newSnapshot = snapshot.copyWith(year: 2012);
+      expect(newSnapshot.year, equals(2012));
+      expect(newSnapshot.month, equals(1));
+      expect(newSnapshot.day, equals(1));
+      expect(newSnapshot.hour, equals(12));
+      expect(newSnapshot.minute, equals(0));
+      expect(newSnapshot.second, equals(0));
+      expect(newSnapshot.millisecond, equals(0));
     });
 
-    test('should return false for non-leap years', () {
-      expect(Snapshot(year: 2021).isLeapYear, isFalse);
-      expect(Snapshot(year: 1900).isLeapYear, isFalse);
-      expect(Snapshot(year: 1700).isLeapYear, isFalse);
+    test('should return a new Snapshot with updated month', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final newSnapshot = snapshot.copyWith(month: 5);
+      expect(newSnapshot.year, equals(2022));
+      expect(newSnapshot.month, equals(5));
+      expect(newSnapshot.day, equals(1));
+      expect(newSnapshot.hour, equals(12));
+      expect(newSnapshot.minute, equals(0));
+      expect(newSnapshot.second, equals(0));
+      expect(newSnapshot.millisecond, equals(0));
     });
 
-    test('should return false for non-leap year divisible by 100', () {
-      final snapshot = Snapshot(year: 1900);
-      expect(snapshot.isLeapYear, isFalse);
+    test('should return a new Snapshot with updated day', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final newSnapshot = snapshot.copyWith(day: 19);
+      expect(newSnapshot.year, equals(2022));
+      expect(newSnapshot.month, equals(1));
+      expect(newSnapshot.day, equals(19));
+      expect(newSnapshot.hour, equals(12));
+      expect(newSnapshot.minute, equals(0));
+      expect(newSnapshot.second, equals(0));
+      expect(newSnapshot.millisecond, equals(0));
     });
 
-    test('should return true for leap year divisible by 4 but not by 100', () {
-      final snapshot = Snapshot(year: 2024);
-      expect(snapshot.isLeapYear, isTrue);
+    test('should return a new Snapshot with updated hour', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final newSnapshot = snapshot.copyWith(hour: 23);
+      expect(newSnapshot.year, equals(2022));
+      expect(newSnapshot.month, equals(1));
+      expect(newSnapshot.day, equals(1));
+      expect(newSnapshot.hour, equals(23));
+      expect(newSnapshot.minute, equals(0));
+      expect(newSnapshot.second, equals(0));
+      expect(newSnapshot.millisecond, equals(0));
     });
 
-    test('should return false for non-leap year not divisible by 4', () {
-      final snapshot = Snapshot(year: 2023);
-      expect(snapshot.isLeapYear, isFalse);
+    test('should return a new Snapshot with updated minute', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final newSnapshot = snapshot.copyWith(minute: 59);
+      expect(newSnapshot.year, equals(2022));
+      expect(newSnapshot.month, equals(1));
+      expect(newSnapshot.day, equals(1));
+      expect(newSnapshot.hour, equals(12));
+      expect(newSnapshot.minute, equals(59));
+      expect(newSnapshot.second, equals(0));
+      expect(newSnapshot.millisecond, equals(0));
     });
 
+    test('should return a new Snapshot with updated second', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final newSnapshot = snapshot.copyWith(second: 59);
+      expect(newSnapshot.year, equals(2022));
+      expect(newSnapshot.month, equals(1));
+      expect(newSnapshot.day, equals(1));
+      expect(newSnapshot.hour, equals(12));
+      expect(newSnapshot.minute, equals(0));
+      expect(newSnapshot.second, equals(59));
+      expect(newSnapshot.millisecond, equals(0));
+    });
+
+    test('should return a new Snapshot with updated millisecond', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final newSnapshot = snapshot.copyWith(millisecond: 999);
+      expect(newSnapshot.year, equals(2022));
+      expect(newSnapshot.month, equals(1));
+      expect(newSnapshot.day, equals(1));
+      expect(newSnapshot.hour, equals(12));
+      expect(newSnapshot.minute, equals(0));
+      expect(newSnapshot.second, equals(0));
+      expect(newSnapshot.millisecond, equals(999));
+    });
+
+    test('should return a new Snapshot with the same year if year is null', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final updatedSnapshot = snapshot.copyWith(year: null);
+
+      expect(updatedSnapshot.year, equals(snapshot.year));
+    });
+
+    test('should return a new Snapshot with the same month if month is null',
+        () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final updatedSnapshot = snapshot.copyWith(month: null);
+
+      expect(updatedSnapshot.month, equals(snapshot.month));
+    });
+
+    test('should return a new Snapshot with the same day if day is null', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final updatedSnapshot = snapshot.copyWith(day: null);
+
+      expect(updatedSnapshot.day, equals(snapshot.day));
+    });
+
+    test('should return a new Snapshot with the same hour if hour is null', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final updatedSnapshot = snapshot.copyWith(hour: null);
+
+      expect(updatedSnapshot.hour, equals(snapshot.hour));
+    });
+
+    test('should return a new Snapshot with the same minute if minute is null',
+        () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final updatedSnapshot = snapshot.copyWith(minute: null);
+
+      expect(updatedSnapshot.minute, equals(snapshot.minute));
+    });
+
+    test('should return a new Snapshot with the same second if second is null',
+        () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final updatedSnapshot = snapshot.copyWith(second: null);
+
+      expect(updatedSnapshot.second, equals(snapshot.second));
+    });
+
+    test(
+        'should return a new Snapshot with the same millisecond if millisecond is null',
+        () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      final updatedSnapshot = snapshot.copyWith(millisecond: null);
+
+      expect(updatedSnapshot.millisecond, equals(snapshot.millisecond));
+    });
+
+    test('should throw an Exception if year is less than 1', () {
+      final snapshot = Snapshot(year: 2022, month: 1);
+      expect(() => snapshot.copyWith(year: 0), throwsException);
+      expect(() => snapshot.copyWith(year: -1), throwsException);
+    });
+
+    test('should throw an Exception if year is more than 275760', () {
+      final snapshot = Snapshot(year: 2022, month: 1);
+      expect(() => snapshot.copyWith(year: 275761), throwsException);
+    });
+
+    test('should throw an Exception if month is less than 1', () {
+      final snapshot = Snapshot(year: 2022, month: 1);
+      expect(() => snapshot.copyWith(month: 0), throwsException);
+      expect(() => snapshot.copyWith(month: -1), throwsException);
+    });
+
+    test('should throw an Exception if month is more than 12', () {
+      final snapshot = Snapshot(year: 2022, month: 1);
+      expect(() => snapshot.copyWith(month: 13), throwsException);
+    });
+
+    test('should throw an Exception if day is less than 1', () {
+      final snapshot = Snapshot(year: 2022, month: 1, day: 20);
+      expect(() => snapshot.copyWith(day: 0), throwsException);
+      expect(() => snapshot.copyWith(day: -1), throwsException);
+    });
+
+    test('should throw an Exception if day is more than 31', () {
+      final snapshot = Snapshot(year: 2022, month: 1, day: 20);
+      expect(() => snapshot.copyWith(day: 32), throwsException);
+    });
+
+    test(
+        'should throw an Exception when trying to set invalid day in February of normal year',
+        () {
+      final snapshot = Snapshot(year: 2021, month: 2, day: 15);
+      expect(() => snapshot.copyWith(day: 30), throwsException);
+    });
+
+    test(
+        'should throw an Exception when trying to set invalid day in February of leap year',
+        () {
+      final snapshot = Snapshot(year: 2024, month: 2, day: 15);
+      expect(() => snapshot.copyWith(day: 30), throwsException);
+    });
+
+    test('should throw an Exception when day is more than 30 in month April',
+        () {
+      final snapshot = Snapshot(year: 2022, month: 4, day: 15);
+      expect(() => snapshot.copyWith(day: 31), throwsException);
+    });
+
+    test('should throw an Exception when day is more than 30 in month June',
+        () {
+      final snapshot = Snapshot(year: 2022, month: 6, day: 15);
+      expect(() => snapshot.copyWith(day: 31), throwsException);
+    });
+
+    test(
+        'should throw an Exception when day is more than 30 in month September',
+        () {
+      final snapshot = Snapshot(year: 2022, month: 9, day: 15);
+      expect(() => snapshot.copyWith(day: 31), throwsException);
+    });
+
+    test('should throw an Exception when day is more than 30 in month November',
+        () {
+      final snapshot = Snapshot(year: 2022, month: 11, day: 15);
+      expect(() => snapshot.copyWith(day: 31), throwsException);
+    });
+
+    test('should throw an Exception if hour is more than 23', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      expect(() => snapshot.copyWith(hour: 24), throwsException);
+    });
+
+    test('should throw an Exception if hour is negative', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      expect(() => snapshot.copyWith(hour: -1), throwsException);
+    });
+
+    test('should throw an Exception if minute is more than 59', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      expect(() => snapshot.copyWith(minute: 60), throwsException);
+    });
+
+    test('should throw an Exception if minute is negative', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      expect(() => snapshot.copyWith(minute: -1), throwsException);
+    });
+
+    test('should throw an Exception if second is more than 59', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      expect(() => snapshot.copyWith(second: 60), throwsException);
+    });
+
+    test('should throw an Exception if second is negative', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      expect(() => snapshot.copyWith(second: -1), throwsException);
+    });
+
+    test('should throw an Exception if millisecond is more than 999', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      expect(() => snapshot.copyWith(millisecond: 1000), throwsException);
+    });
+
+    test('should throw an Exception if millisecond is negative', () {
+      final snapshot = Snapshot(
+          year: 2022,
+          month: 1,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0);
+      expect(() => snapshot.copyWith(millisecond: -1), throwsException);
+    });
+  }));
+
+  group("Snapshot daysInMonth getter", () {
     test('should return 31 for January', () {
       final snapshot = Snapshot(year: 2022, month: 1);
       expect(snapshot.daysInMonth, 31);
@@ -217,448 +624,38 @@ void main() {
       final snapshot = Snapshot(year: 2022, month: 12);
       expect(snapshot.daysInMonth, 31);
     });
+  });
 
-    test('copyWith should return a new Snapshot with updated year', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final newSnapshot = snapshot.copyWith(year: 2012);
-      expect(newSnapshot.year, equals(2012));
-      expect(newSnapshot.month, equals(1));
-      expect(newSnapshot.day, equals(1));
-      expect(newSnapshot.hour, equals(12));
-      expect(newSnapshot.minute, equals(0));
-      expect(newSnapshot.second, equals(0));
-      expect(newSnapshot.millisecond, equals(0));
+  group("Snapshot isLeapYear getter", () {
+    test('should return true for leap years', () {
+      expect(Snapshot(year: 2020).isLeapYear, isTrue);
+      expect(Snapshot(year: 2000).isLeapYear, isTrue);
+      expect(Snapshot(year: 1600).isLeapYear, isTrue);
     });
 
-    test('copyWith should return a new Snapshot with updated month', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final newSnapshot = snapshot.copyWith(month: 5);
-      expect(newSnapshot.year, equals(2022));
-      expect(newSnapshot.month, equals(5));
-      expect(newSnapshot.day, equals(1));
-      expect(newSnapshot.hour, equals(12));
-      expect(newSnapshot.minute, equals(0));
-      expect(newSnapshot.second, equals(0));
-      expect(newSnapshot.millisecond, equals(0));
+    test('should return false for non-leap years', () {
+      expect(Snapshot(year: 2021).isLeapYear, isFalse);
+      expect(Snapshot(year: 1900).isLeapYear, isFalse);
+      expect(Snapshot(year: 1700).isLeapYear, isFalse);
     });
 
-    test('copyWith should return a new Snapshot with updated day', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final newSnapshot = snapshot.copyWith(day: 19);
-      expect(newSnapshot.year, equals(2022));
-      expect(newSnapshot.month, equals(1));
-      expect(newSnapshot.day, equals(19));
-      expect(newSnapshot.hour, equals(12));
-      expect(newSnapshot.minute, equals(0));
-      expect(newSnapshot.second, equals(0));
-      expect(newSnapshot.millisecond, equals(0));
+    test('should return false for non-leap year divisible by 100', () {
+      final snapshot = Snapshot(year: 1900);
+      expect(snapshot.isLeapYear, isFalse);
     });
 
-    test('copyWith should return a new Snapshot with updated hour', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final newSnapshot = snapshot.copyWith(hour: 23);
-      expect(newSnapshot.year, equals(2022));
-      expect(newSnapshot.month, equals(1));
-      expect(newSnapshot.day, equals(1));
-      expect(newSnapshot.hour, equals(23));
-      expect(newSnapshot.minute, equals(0));
-      expect(newSnapshot.second, equals(0));
-      expect(newSnapshot.millisecond, equals(0));
+    test('should return true for leap year divisible by 4 but not by 100', () {
+      final snapshot = Snapshot(year: 2024);
+      expect(snapshot.isLeapYear, isTrue);
     });
 
-    test('copyWith should return a new Snapshot with updated minute', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final newSnapshot = snapshot.copyWith(minute: 59);
-      expect(newSnapshot.year, equals(2022));
-      expect(newSnapshot.month, equals(1));
-      expect(newSnapshot.day, equals(1));
-      expect(newSnapshot.hour, equals(12));
-      expect(newSnapshot.minute, equals(59));
-      expect(newSnapshot.second, equals(0));
-      expect(newSnapshot.millisecond, equals(0));
+    test('should return false for non-leap year not divisible by 4', () {
+      final snapshot = Snapshot(year: 2023);
+      expect(snapshot.isLeapYear, isFalse);
     });
+  });
 
-    test('copyWith should return a new Snapshot with updated second', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final newSnapshot = snapshot.copyWith(second: 59);
-      expect(newSnapshot.year, equals(2022));
-      expect(newSnapshot.month, equals(1));
-      expect(newSnapshot.day, equals(1));
-      expect(newSnapshot.hour, equals(12));
-      expect(newSnapshot.minute, equals(0));
-      expect(newSnapshot.second, equals(59));
-      expect(newSnapshot.millisecond, equals(0));
-    });
-
-    test('copyWith should return a new Snapshot with updated millisecond', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final newSnapshot = snapshot.copyWith(millisecond: 999);
-      expect(newSnapshot.year, equals(2022));
-      expect(newSnapshot.month, equals(1));
-      expect(newSnapshot.day, equals(1));
-      expect(newSnapshot.hour, equals(12));
-      expect(newSnapshot.minute, equals(0));
-      expect(newSnapshot.second, equals(0));
-      expect(newSnapshot.millisecond, equals(999));
-    });
-
-    test(
-        'copyWith should return a new Snapshot with the same year if year is null',
-        () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final updatedSnapshot = snapshot.copyWith(year: null);
-
-      expect(updatedSnapshot.year, equals(snapshot.year));
-    });
-
-    test(
-        'copyWith should return a new Snapshot with the same month if month is null',
-        () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final updatedSnapshot = snapshot.copyWith(month: null);
-
-      expect(updatedSnapshot.month, equals(snapshot.month));
-    });
-
-    test(
-        'copyWith should return a new Snapshot with the same day if day is null',
-        () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final updatedSnapshot = snapshot.copyWith(day: null);
-
-      expect(updatedSnapshot.day, equals(snapshot.day));
-    });
-
-    test(
-        'copyWith should return a new Snapshot with the same hour if hour is null',
-        () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final updatedSnapshot = snapshot.copyWith(hour: null);
-
-      expect(updatedSnapshot.hour, equals(snapshot.hour));
-    });
-
-    test(
-        'copyWith should return a new Snapshot with the same minute if minute is null',
-        () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final updatedSnapshot = snapshot.copyWith(minute: null);
-
-      expect(updatedSnapshot.minute, equals(snapshot.minute));
-    });
-
-    test(
-        'copyWith should return a new Snapshot with the same second if second is null',
-        () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final updatedSnapshot = snapshot.copyWith(second: null);
-
-      expect(updatedSnapshot.second, equals(snapshot.second));
-    });
-
-    test(
-        'copyWith should return a new Snapshot with the same millisecond if millisecond is null',
-        () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      final updatedSnapshot = snapshot.copyWith(millisecond: null);
-
-      expect(updatedSnapshot.millisecond, equals(snapshot.millisecond));
-    });
-
-    test('copyWith should throw an Exception if year is less than 1', () {
-      final snapshot = Snapshot(year: 2022, month: 1);
-      expect(() => snapshot.copyWith(year: 0), throwsException);
-      expect(() => snapshot.copyWith(year: -1), throwsException);
-    });
-
-    test('copyWith should throw an Exception if year is more than 275760', () {
-      final snapshot = Snapshot(year: 2022, month: 1);
-      expect(() => snapshot.copyWith(year: 275761), throwsException);
-    });
-
-    test('copyWith should throw an Exception if month is less than 1', () {
-      final snapshot = Snapshot(year: 2022, month: 1);
-      expect(() => snapshot.copyWith(month: 0), throwsException);
-      expect(() => snapshot.copyWith(month: -1), throwsException);
-    });
-
-    test('copyWith should throw an Exception if month is more than 12', () {
-      final snapshot = Snapshot(year: 2022, month: 1);
-      expect(() => snapshot.copyWith(month: 13), throwsException);
-    });
-
-    test('copyWith should throw an Exception if day is less than 1', () {
-      final snapshot = Snapshot(year: 2022, month: 1, day: 20);
-      expect(() => snapshot.copyWith(day: 0), throwsException);
-      expect(() => snapshot.copyWith(day: -1), throwsException);
-    });
-
-    test('copyWith should throw an Exception if day is more than 31', () {
-      final snapshot = Snapshot(year: 2022, month: 1, day: 20);
-      expect(() => snapshot.copyWith(day: 32), throwsException);
-    });
-
-    test(
-        'copyWith should throw an Exception when trying to set invalid day in February of normal year',
-        () {
-      final snapshot = Snapshot(year: 2021, month: 2, day: 15);
-      expect(() => snapshot.copyWith(day: 30), throwsException);
-    });
-
-    test(
-        'copyWith should throw an Exception when trying to set invalid day in February of leap year',
-        () {
-      final snapshot = Snapshot(year: 2024, month: 2, day: 15);
-      expect(() => snapshot.copyWith(day: 30), throwsException);
-    });
-
-    test(
-        'copyWith should throw an Exception when day is more than 30 in month April',
-        () {
-      final snapshot = Snapshot(year: 2022, month: 4, day: 15);
-      expect(() => snapshot.copyWith(day: 31), throwsException);
-    });
-
-    test(
-        'copyWith should throw an Exception when day is more than 30 in month June',
-        () {
-      final snapshot = Snapshot(year: 2022, month: 6, day: 15);
-      expect(() => snapshot.copyWith(day: 31), throwsException);
-    });
-
-    test(
-        'copyWith should throw an Exception when day is more than 30 in month September',
-        () {
-      final snapshot = Snapshot(year: 2022, month: 9, day: 15);
-      expect(() => snapshot.copyWith(day: 31), throwsException);
-    });
-
-    test(
-        'copyWith should throw an Exception when day is more than 30 in month November',
-        () {
-      final snapshot = Snapshot(year: 2022, month: 11, day: 15);
-      expect(() => snapshot.copyWith(day: 31), throwsException);
-    });
-
-    test('copyWith should throw an Exception if hour is more than 23', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      expect(() => snapshot.copyWith(hour: 24), throwsException);
-    });
-
-    test('copyWith should throw an Exception if hour is negative', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      expect(() => snapshot.copyWith(hour: -1), throwsException);
-    });
-
-    test('copyWith should throw an Exception if minute is more than 59', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      expect(() => snapshot.copyWith(minute: 60), throwsException);
-    });
-
-    test('copyWith should throw an Exception if minute is negative', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      expect(() => snapshot.copyWith(minute: -1), throwsException);
-    });
-
-    test('copyWith should throw an Exception if second is more than 59', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      expect(() => snapshot.copyWith(second: 60), throwsException);
-    });
-
-    test('copyWith should throw an Exception if second is negative', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      expect(() => snapshot.copyWith(second: -1), throwsException);
-    });
-
-    test('copyWith should throw an Exception if millisecond is more than 999',
-        () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      expect(() => snapshot.copyWith(millisecond: 1000), throwsException);
-    });
-
-    test('copyWith should throw an Exception if millisecond is negative', () {
-      final snapshot = Snapshot(
-          year: 2022,
-          month: 1,
-          day: 1,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0);
-      expect(() => snapshot.copyWith(millisecond: -1), throwsException);
-    });
-
-    test(
-        'should throw an exception when creating snapshot with invalid date/time values',
-        () {
-      expect(() => Snapshot(year: 0), throwsA(isA<Exception>()));
-      expect(() => Snapshot(year: -2022), throwsA(isA<Exception>()));
-      expect(() => Snapshot(year: 275761), throwsA(isA<Exception>()));
-      expect(() => Snapshot(month: 0), throwsA(isA<Exception>()));
-      expect(() => Snapshot(month: 13), throwsA(isA<Exception>()));
-      expect(() => Snapshot(day: 0), throwsA(isA<Exception>()));
-      expect(() => Snapshot(day: 32), throwsA(isA<Exception>()));
-      expect(() => Snapshot(day: 30, month: 2, year: 2024),
-          throwsA(isA<Exception>()));
-      expect(() => Snapshot(day: 30, month: 2, year: 2021),
-          throwsA(isA<Exception>()));
-      expect(() => Snapshot(hour: -1), throwsA(isA<Exception>()));
-      expect(() => Snapshot(hour: 24), throwsA(isA<Exception>()));
-      expect(() => Snapshot(minute: -1), throwsA(isA<Exception>()));
-      expect(() => Snapshot(minute: 60), throwsA(isA<Exception>()));
-      expect(() => Snapshot(second: -1), throwsA(isA<Exception>()));
-      expect(() => Snapshot(second: 60), throwsA(isA<Exception>()));
-      expect(() => Snapshot(millisecond: -1), throwsA(isA<Exception>()));
-      expect(() => Snapshot(millisecond: 1000), throwsA(isA<Exception>()));
-    });
-
+  group("Snapshot hashCode method", () {
     test('should return the same hash code for equal Snapshots', () {
       final snapshot1 = Snapshot(
         year: 2022,
@@ -844,7 +841,9 @@ void main() {
       );
       expect(snapshot1.hashCode, isNot(snapshot2.hashCode));
     });
+  });
 
+  group("Snapshot toMap() method", () {
     test('should return a map with all snapshot values', () {
       final snapshot = Snapshot(
         year: 2022,
@@ -880,7 +879,9 @@ void main() {
       };
       expect(snapshot.toMap(), equals(expectedMap));
     });
+  });
 
+  group("Snapshot fromMap() factory", () {
     test('should return a snapshot from a valid map', () {
       final map = <String, dynamic>{
         'millisecond': 0,
@@ -1016,7 +1017,9 @@ void main() {
       };
       expect(() => Snapshot.fromMap(map), throwsException);
     });
+  });
 
+  group("Snapshot toJson() method", () {
     test('should return a valid JSON string with default snapshot values', () {
       final snapshot = Snapshot();
 
@@ -1037,7 +1040,9 @@ void main() {
       expect(snapshot.toJson(),
           '{"millisecond":500,"second":45,"minute":30,"hour":13,"day":22,"month":2,"year":2022}');
     });
+  });
 
+  group("Snapshot fromJson() factory", () {
     test('fromJson() should return a Snapshot object from valid JSON', () {
       const jsonStr =
           '{"millisecond": 500, "second": 59, "minute": 30, "hour": 12, "day": 15, "month": 2, "year": 2022}';
