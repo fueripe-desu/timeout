@@ -85,7 +85,7 @@ class Snapshot {
         year: map['year'] as int,
       );
     } catch (err) {
-      throw FormatException('Invalid map: $err');
+      throw SnapshotError('Invalid map: $err');
     }
   }
 
@@ -102,25 +102,25 @@ class Snapshot {
       final year = map['year'] as int?;
 
       if (millisecond == null) {
-        throw const FormatException("Missing millisecond field.");
+        throw SnapshotMissingField("Missing millisecond field.");
       }
       if (second == null) {
-        throw const FormatException("Missing second field.");
+        throw SnapshotMissingField("Missing second field.");
       }
       if (minute == null) {
-        throw const FormatException("Missing minute field.");
+        throw SnapshotMissingField("Missing minute field.");
       }
       if (hour == null) {
-        throw const FormatException("Missing hour field.");
+        throw SnapshotMissingField("Missing hour field.");
       }
       if (day == null) {
-        throw const FormatException("Missing day field.");
+        throw SnapshotMissingField("Missing day field.");
       }
       if (month == null) {
-        throw const FormatException("Missing month field.");
+        throw SnapshotMissingField("Missing month field.");
       }
       if (year == null) {
-        throw const FormatException("Missing year field.");
+        throw SnapshotMissingField("Missing year field.");
       }
 
       return Snapshot(
@@ -133,7 +133,7 @@ class Snapshot {
         year: year,
       );
     } catch (err) {
-      throw FormatException('Invalid JSON string: $err');
+      throw SnapshotError('Invalid JSON string: $err');
     }
   }
 
