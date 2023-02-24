@@ -37,25 +37,27 @@ void main() {
     test(
         'should throw an exception when creating snapshot with invalid date/time values',
         () {
-      expect(() => Snapshot(year: 0), throwsA(isA<Exception>()));
-      expect(() => Snapshot(year: -2022), throwsA(isA<Exception>()));
-      expect(() => Snapshot(year: 275761), throwsA(isA<Exception>()));
-      expect(() => Snapshot(month: 0), throwsA(isA<Exception>()));
-      expect(() => Snapshot(month: 13), throwsA(isA<Exception>()));
-      expect(() => Snapshot(day: 0), throwsA(isA<Exception>()));
-      expect(() => Snapshot(day: 32), throwsA(isA<Exception>()));
+      expect(() => Snapshot(year: 0), throwsA(isA<SnapshotDateError>()));
+      expect(() => Snapshot(year: -2022), throwsA(isA<SnapshotDateError>()));
+      expect(() => Snapshot(year: 275761), throwsA(isA<SnapshotDateError>()));
+      expect(() => Snapshot(month: 0), throwsA(isA<SnapshotDateError>()));
+      expect(() => Snapshot(month: 13), throwsA(isA<SnapshotDateError>()));
+      expect(() => Snapshot(day: 0), throwsA(isA<SnapshotDateError>()));
+      expect(() => Snapshot(day: 32), throwsA(isA<SnapshotDateError>()));
       expect(() => Snapshot(day: 30, month: 2, year: 2024),
-          throwsA(isA<Exception>()));
+          throwsA(isA<SnapshotDateError>()));
       expect(() => Snapshot(day: 30, month: 2, year: 2021),
-          throwsA(isA<Exception>()));
-      expect(() => Snapshot(hour: -1), throwsA(isA<Exception>()));
-      expect(() => Snapshot(hour: 24), throwsA(isA<Exception>()));
-      expect(() => Snapshot(minute: -1), throwsA(isA<Exception>()));
-      expect(() => Snapshot(minute: 60), throwsA(isA<Exception>()));
-      expect(() => Snapshot(second: -1), throwsA(isA<Exception>()));
-      expect(() => Snapshot(second: 60), throwsA(isA<Exception>()));
-      expect(() => Snapshot(millisecond: -1), throwsA(isA<Exception>()));
-      expect(() => Snapshot(millisecond: 1000), throwsA(isA<Exception>()));
+          throwsA(isA<SnapshotDateError>()));
+      expect(() => Snapshot(hour: -1), throwsA(isA<SnapshotTimeError>()));
+      expect(() => Snapshot(hour: 24), throwsA(isA<SnapshotTimeError>()));
+      expect(() => Snapshot(minute: -1), throwsA(isA<SnapshotTimeError>()));
+      expect(() => Snapshot(minute: 60), throwsA(isA<SnapshotTimeError>()));
+      expect(() => Snapshot(second: -1), throwsA(isA<SnapshotTimeError>()));
+      expect(() => Snapshot(second: 60), throwsA(isA<SnapshotTimeError>()));
+      expect(
+          () => Snapshot(millisecond: -1), throwsA(isA<SnapshotTimeError>()));
+      expect(
+          () => Snapshot(millisecond: 1000), throwsA(isA<SnapshotTimeError>()));
     });
   });
 
@@ -392,74 +394,89 @@ void main() {
 
     test('should throw an Exception if year is less than 1', () {
       final snapshot = Snapshot(year: 2022, month: 1);
-      expect(() => snapshot.copyWith(year: 0), throwsException);
-      expect(() => snapshot.copyWith(year: -1), throwsException);
+      expect(
+          () => snapshot.copyWith(year: 0), throwsA(isA<SnapshotDateError>()));
+      expect(
+          () => snapshot.copyWith(year: -1), throwsA(isA<SnapshotDateError>()));
     });
 
     test('should throw an Exception if year is more than 275760', () {
       final snapshot = Snapshot(year: 2022, month: 1);
-      expect(() => snapshot.copyWith(year: 275761), throwsException);
+      expect(() => snapshot.copyWith(year: 275761),
+          throwsA(isA<SnapshotDateError>()));
     });
 
     test('should throw an Exception if month is less than 1', () {
       final snapshot = Snapshot(year: 2022, month: 1);
-      expect(() => snapshot.copyWith(month: 0), throwsException);
-      expect(() => snapshot.copyWith(month: -1), throwsException);
+      expect(
+          () => snapshot.copyWith(month: 0), throwsA(isA<SnapshotDateError>()));
+      expect(() => snapshot.copyWith(month: -1),
+          throwsA(isA<SnapshotDateError>()));
     });
 
     test('should throw an Exception if month is more than 12', () {
       final snapshot = Snapshot(year: 2022, month: 1);
-      expect(() => snapshot.copyWith(month: 13), throwsException);
+      expect(() => snapshot.copyWith(month: 13),
+          throwsA(isA<SnapshotDateError>()));
     });
 
     test('should throw an Exception if day is less than 1', () {
       final snapshot = Snapshot(year: 2022, month: 1, day: 20);
-      expect(() => snapshot.copyWith(day: 0), throwsException);
-      expect(() => snapshot.copyWith(day: -1), throwsException);
+      expect(
+          () => snapshot.copyWith(day: 0), throwsA(isA<SnapshotDateError>()));
+      expect(
+          () => snapshot.copyWith(day: -1), throwsA(isA<SnapshotDateError>()));
     });
 
     test('should throw an Exception if day is more than 31', () {
       final snapshot = Snapshot(year: 2022, month: 1, day: 20);
-      expect(() => snapshot.copyWith(day: 32), throwsException);
+      expect(
+          () => snapshot.copyWith(day: 32), throwsA(isA<SnapshotDateError>()));
     });
 
     test(
         'should throw an Exception when trying to set invalid day in February of normal year',
         () {
       final snapshot = Snapshot(year: 2021, month: 2, day: 15);
-      expect(() => snapshot.copyWith(day: 30), throwsException);
+      expect(
+          () => snapshot.copyWith(day: 30), throwsA(isA<SnapshotDateError>()));
     });
 
     test(
         'should throw an Exception when trying to set invalid day in February of leap year',
         () {
       final snapshot = Snapshot(year: 2024, month: 2, day: 15);
-      expect(() => snapshot.copyWith(day: 30), throwsException);
+      expect(
+          () => snapshot.copyWith(day: 30), throwsA(isA<SnapshotDateError>()));
     });
 
     test('should throw an Exception when day is more than 30 in month April',
         () {
       final snapshot = Snapshot(year: 2022, month: 4, day: 15);
-      expect(() => snapshot.copyWith(day: 31), throwsException);
+      expect(
+          () => snapshot.copyWith(day: 31), throwsA(isA<SnapshotDateError>()));
     });
 
     test('should throw an Exception when day is more than 30 in month June',
         () {
       final snapshot = Snapshot(year: 2022, month: 6, day: 15);
-      expect(() => snapshot.copyWith(day: 31), throwsException);
+      expect(
+          () => snapshot.copyWith(day: 31), throwsA(isA<SnapshotDateError>()));
     });
 
     test(
         'should throw an Exception when day is more than 30 in month September',
         () {
       final snapshot = Snapshot(year: 2022, month: 9, day: 15);
-      expect(() => snapshot.copyWith(day: 31), throwsException);
+      expect(
+          () => snapshot.copyWith(day: 31), throwsA(isA<SnapshotDateError>()));
     });
 
     test('should throw an Exception when day is more than 30 in month November',
         () {
       final snapshot = Snapshot(year: 2022, month: 11, day: 15);
-      expect(() => snapshot.copyWith(day: 31), throwsException);
+      expect(
+          () => snapshot.copyWith(day: 31), throwsA(isA<SnapshotDateError>()));
     });
 
     test('should throw an Exception if hour is more than 23', () {
@@ -471,7 +488,8 @@ void main() {
           minute: 0,
           second: 0,
           millisecond: 0);
-      expect(() => snapshot.copyWith(hour: 24), throwsException);
+      expect(
+          () => snapshot.copyWith(hour: 24), throwsA(isA<SnapshotTimeError>()));
     });
 
     test('should throw an Exception if hour is negative', () {
@@ -483,7 +501,8 @@ void main() {
           minute: 0,
           second: 0,
           millisecond: 0);
-      expect(() => snapshot.copyWith(hour: -1), throwsException);
+      expect(
+          () => snapshot.copyWith(hour: -1), throwsA(isA<SnapshotTimeError>()));
     });
 
     test('should throw an Exception if minute is more than 59', () {
@@ -495,7 +514,8 @@ void main() {
           minute: 0,
           second: 0,
           millisecond: 0);
-      expect(() => snapshot.copyWith(minute: 60), throwsException);
+      expect(() => snapshot.copyWith(minute: 60),
+          throwsA(isA<SnapshotTimeError>()));
     });
 
     test('should throw an Exception if minute is negative', () {
@@ -507,7 +527,8 @@ void main() {
           minute: 0,
           second: 0,
           millisecond: 0);
-      expect(() => snapshot.copyWith(minute: -1), throwsException);
+      expect(() => snapshot.copyWith(minute: -1),
+          throwsA(isA<SnapshotTimeError>()));
     });
 
     test('should throw an Exception if second is more than 59', () {
@@ -519,7 +540,8 @@ void main() {
           minute: 0,
           second: 0,
           millisecond: 0);
-      expect(() => snapshot.copyWith(second: 60), throwsException);
+      expect(() => snapshot.copyWith(second: 60),
+          throwsA(isA<SnapshotTimeError>()));
     });
 
     test('should throw an Exception if second is negative', () {
@@ -531,7 +553,8 @@ void main() {
           minute: 0,
           second: 0,
           millisecond: 0);
-      expect(() => snapshot.copyWith(second: -1), throwsException);
+      expect(() => snapshot.copyWith(second: -1),
+          throwsA(isA<SnapshotTimeError>()));
     });
 
     test('should throw an Exception if millisecond is more than 999', () {
@@ -543,7 +566,8 @@ void main() {
           minute: 0,
           second: 0,
           millisecond: 0);
-      expect(() => snapshot.copyWith(millisecond: 1000), throwsException);
+      expect(() => snapshot.copyWith(millisecond: 1000),
+          throwsA(isA<SnapshotTimeError>()));
     });
 
     test('should throw an Exception if millisecond is negative', () {
@@ -555,7 +579,8 @@ void main() {
           minute: 0,
           second: 0,
           millisecond: 0);
-      expect(() => snapshot.copyWith(millisecond: -1), throwsException);
+      expect(() => snapshot.copyWith(millisecond: -1),
+          throwsA(isA<SnapshotTimeError>()));
     });
   }));
 
@@ -912,7 +937,7 @@ void main() {
         'month': 1,
         'year': 2022,
       };
-      expect(() => Snapshot.fromMap(map), throwsFormatException);
+      expect(() => Snapshot.fromMap(map), throwsA(isA<SnapshotError>()));
     });
 
     test('should throw a format exception for a map with missing fields', () {
@@ -924,7 +949,7 @@ void main() {
         'day': 1,
         'month': 1,
       };
-      expect(() => Snapshot.fromMap(map), throwsFormatException);
+      expect(() => Snapshot.fromMap(map), throwsA(isA<SnapshotError>()));
     });
 
     test('should throw an ArgumentError for invalid millisecond', () {
@@ -1059,30 +1084,39 @@ void main() {
 
     test('fromJson() should throw a FormatException for invalid JSON', () {
       expect(() => Snapshot.fromJson('invalid json'),
-          throwsA(isA<FormatException>()));
+          throwsA(isA<SnapshotError>()));
     });
 
     test(
         'fromJson() should throw a FormatException for JSON with missing fields',
         () {
       const jsonStr = '{"millisecond": 500, "second": 59, "minute": 30}';
-      expect(() => Snapshot.fromJson(jsonStr), throwsA(isA<FormatException>()));
+      expect(() => Snapshot.fromJson(jsonStr),
+          throwsA(isA<SnapshotMissingField>()));
     });
 
     test('should throw a FormatException for an invalid JSON string', () {
-      expect(() => Snapshot.fromJson('{invalid json}'), throwsFormatException);
+      expect(() => Snapshot.fromJson('{invalid json}'),
+          throwsA(isA<SnapshotError>()));
     });
 
     test('should throw a FormatException if any field is missing', () {
-      expect(() => Snapshot.fromJson('{}'), throwsFormatException);
+      expect(
+          () => Snapshot.fromJson('{}'), throwsA(isA<SnapshotMissingField>()));
       expect(() => Snapshot.fromJson('{"millisecond": 100}'),
-          throwsFormatException);
-      expect(() => Snapshot.fromJson('{"second": 30}'), throwsFormatException);
-      expect(() => Snapshot.fromJson('{"minute": 15}'), throwsFormatException);
-      expect(() => Snapshot.fromJson('{"hour": 2}'), throwsFormatException);
-      expect(() => Snapshot.fromJson('{"day": 1}'), throwsFormatException);
-      expect(() => Snapshot.fromJson('{"month": 12}'), throwsFormatException);
-      expect(() => Snapshot.fromJson('{"year": 2022}'), throwsFormatException);
+          throwsA(isA<SnapshotMissingField>()));
+      expect(() => Snapshot.fromJson('{"second": 30}'),
+          throwsA(isA<SnapshotMissingField>()));
+      expect(() => Snapshot.fromJson('{"minute": 15}'),
+          throwsA(isA<SnapshotMissingField>()));
+      expect(() => Snapshot.fromJson('{"hour": 2}'),
+          throwsA(isA<SnapshotMissingField>()));
+      expect(() => Snapshot.fromJson('{"day": 1}'),
+          throwsA(isA<SnapshotMissingField>()));
+      expect(() => Snapshot.fromJson('{"month": 12}'),
+          throwsA(isA<SnapshotMissingField>()));
+      expect(() => Snapshot.fromJson('{"year": 2022}'),
+          throwsA(isA<SnapshotMissingField>()));
     });
   });
 }
