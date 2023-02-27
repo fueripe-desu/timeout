@@ -927,7 +927,7 @@ void main() {
       expect(snapshot.year, 2022);
     });
 
-    test('should throw a format exception for an invalid map', () {
+    test('should throw a SnapshotError for an invalid map', () {
       final map = <String, dynamic>{
         'millisecond': 0,
         'second': 'invalid',
@@ -940,7 +940,7 @@ void main() {
       expect(() => Snapshot.fromMap(map), throwsA(isA<SnapshotError>()));
     });
 
-    test('should throw a format exception for a map with missing fields', () {
+    test('should throw a SnapshotError for a map with missing fields', () {
       final map = <String, dynamic>{
         'millisecond': 0,
         'second': 0,
@@ -952,7 +952,7 @@ void main() {
       expect(() => Snapshot.fromMap(map), throwsA(isA<SnapshotError>()));
     });
 
-    test('should throw an ArgumentError for invalid millisecond', () {
+    test('should throw an SnapshotError for invalid millisecond', () {
       final map = <String, dynamic>{
         'millisecond': -1,
         'second': 0,
@@ -962,10 +962,10 @@ void main() {
         'month': 1,
         'year': 2022,
       };
-      expect(() => Snapshot.fromMap(map), throwsException);
+      expect(() => Snapshot.fromMap(map), throwsA(isA<SnapshotError>()));
     });
 
-    test('should throw an ArgumentError for invalid second', () {
+    test('should throw an SnapshotError for invalid second', () {
       final map = <String, dynamic>{
         'millisecond': 0,
         'second': 60,
@@ -975,10 +975,10 @@ void main() {
         'month': 1,
         'year': 2022,
       };
-      expect(() => Snapshot.fromMap(map), throwsException);
+      expect(() => Snapshot.fromMap(map), throwsA(isA<SnapshotError>()));
     });
 
-    test('should throw an ArgumentError for invalid minute', () {
+    test('should throw an SnapshotError for invalid minute', () {
       final map = <String, dynamic>{
         'millisecond': 0,
         'second': 0,
@@ -988,10 +988,10 @@ void main() {
         'month': 1,
         'year': 2022,
       };
-      expect(() => Snapshot.fromMap(map), throwsException);
+      expect(() => Snapshot.fromMap(map), throwsA(isA<SnapshotError>()));
     });
 
-    test('should throw an ArgumentError for invalid hour', () {
+    test('should throw an SnapshotError for invalid hour', () {
       final map = <String, dynamic>{
         'millisecond': 0,
         'second': 0,
@@ -1001,10 +1001,10 @@ void main() {
         'month': 1,
         'year': 2022,
       };
-      expect(() => Snapshot.fromMap(map), throwsException);
+      expect(() => Snapshot.fromMap(map), throwsA(isA<SnapshotError>()));
     });
 
-    test('should throw an ArgumentError for invalid day', () {
+    test('should throw an SnapshotError for invalid day', () {
       final map = <String, dynamic>{
         'millisecond': 0,
         'second': 0,
@@ -1014,10 +1014,10 @@ void main() {
         'month': 1,
         'year': 2022,
       };
-      expect(() => Snapshot.fromMap(map), throwsException);
+      expect(() => Snapshot.fromMap(map), throwsA(isA<SnapshotError>()));
     });
 
-    test('should throw an ArgumentError for invalid month', () {
+    test('should throw an SnapshotError for invalid month', () {
       final map = <String, dynamic>{
         'millisecond': 0,
         'second': 0,
@@ -1027,10 +1027,10 @@ void main() {
         'month': 13,
         'year': 2022,
       };
-      expect(() => Snapshot.fromMap(map), throwsException);
+      expect(() => Snapshot.fromMap(map), throwsA(isA<SnapshotError>()));
     });
 
-    test('should throw an ArgumentError for invalid year', () {
+    test('should throw an SnapshotError for invalid year', () {
       final map = <String, dynamic>{
         'millisecond': 0,
         'second': 0,
@@ -1040,7 +1040,7 @@ void main() {
         'month': 1,
         'year': -2022,
       };
-      expect(() => Snapshot.fromMap(map), throwsException);
+      expect(() => Snapshot.fromMap(map), throwsA(isA<SnapshotError>()));
     });
   });
 
@@ -1082,24 +1082,23 @@ void main() {
       expect(snapshot.year, 2022);
     });
 
-    test('fromJson() should throw a FormatException for invalid JSON', () {
+    test('fromJson() should throw a SnapshotError for invalid JSON', () {
       expect(() => Snapshot.fromJson('invalid json'),
           throwsA(isA<SnapshotError>()));
     });
 
-    test(
-        'fromJson() should throw a FormatException for JSON with missing fields',
+    test('fromJson() should throw a SnapshotError for JSON with missing fields',
         () {
       const jsonStr = '{"millisecond": 500, "second": 59, "minute": 30}';
       expect(() => Snapshot.fromJson(jsonStr), throwsA(isA<SnapshotError>()));
     });
 
-    test('should throw a FormatException for an invalid JSON string', () {
+    test('should throw a SnapshotError for an invalid JSON string', () {
       expect(() => Snapshot.fromJson('{invalid json}'),
           throwsA(isA<SnapshotError>()));
     });
 
-    test('should throw a FormatException if any field is missing', () {
+    test('should throw a SnapshotError if any field is missing', () {
       expect(() => Snapshot.fromJson('{}'), throwsA(isA<SnapshotError>()));
       expect(() => Snapshot.fromJson('{"millisecond": 100}'),
           throwsA(isA<SnapshotError>()));
