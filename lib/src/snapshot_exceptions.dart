@@ -20,7 +20,6 @@ class SnapshotDateError extends ArgumentError {
   late final String errBody;
   late final String invalidDateMsg;
   late final String? hint;
-  late final String invalidCode;
 
   SnapshotDateError(String errorMessage, this.invalidDate, {String? hint})
       : super(errorMessage) {
@@ -45,7 +44,7 @@ class SnapshotDateError extends ArgumentError {
     final functionName = isCopyWithErr ? ".copyWith" : "";
 
     // Invalid code is the piece of code that raised the error
-    invalidCode =
+    final invalidCode =
         "Snapshot$functionName(${invalidDate.invalidParameter}: YOU SHOULD CORRECT HERE)";
 
     return "$errMsg\n$invalidDateMsg\n$hint${hint!.isNotEmpty ? ' -> $invalidCode\n\n' : ''}$stackTrace";
@@ -81,7 +80,6 @@ class SnapshotTimeError extends ArgumentError {
   late final String errBody;
   late final String invalidTimeMsg;
   late final String? hint;
-  late final String invalidCode;
 
   SnapshotTimeError(String errorMessage, this.invalidTime, {String? hint})
       : super(errorMessage) {
@@ -106,7 +104,7 @@ class SnapshotTimeError extends ArgumentError {
     final functionName = isCopyWithErr ? ".copyWith" : "";
 
     // Invalid code is the piece of code that raised the error
-    invalidCode =
+    final invalidCode =
         "Snapshot$functionName(${invalidTime.invalidParameter}: YOU SHOULD CORRECT HERE)";
 
     return "$errMsg\n$invalidTime\n$hint${hint!.isNotEmpty ? ' -> $invalidCode\n\n' : ''}$stackTrace";
