@@ -83,7 +83,6 @@ class Snapshot {
         );
       }
     } catch (err) {
-      print("Error creating Snapshot: $err");
       rethrow;
     }
   }
