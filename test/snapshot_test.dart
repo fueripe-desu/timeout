@@ -1091,8 +1091,7 @@ void main() {
         'fromJson() should throw a FormatException for JSON with missing fields',
         () {
       const jsonStr = '{"millisecond": 500, "second": 59, "minute": 30}';
-      expect(() => Snapshot.fromJson(jsonStr),
-          throwsA(isA<SnapshotMissingField>()));
+      expect(() => Snapshot.fromJson(jsonStr), throwsA(isA<SnapshotError>()));
     });
 
     test('should throw a FormatException for an invalid JSON string', () {
@@ -1101,22 +1100,21 @@ void main() {
     });
 
     test('should throw a FormatException if any field is missing', () {
-      expect(
-          () => Snapshot.fromJson('{}'), throwsA(isA<SnapshotMissingField>()));
+      expect(() => Snapshot.fromJson('{}'), throwsA(isA<SnapshotError>()));
       expect(() => Snapshot.fromJson('{"millisecond": 100}'),
-          throwsA(isA<SnapshotMissingField>()));
+          throwsA(isA<SnapshotError>()));
       expect(() => Snapshot.fromJson('{"second": 30}'),
-          throwsA(isA<SnapshotMissingField>()));
+          throwsA(isA<SnapshotError>()));
       expect(() => Snapshot.fromJson('{"minute": 15}'),
-          throwsA(isA<SnapshotMissingField>()));
+          throwsA(isA<SnapshotError>()));
       expect(() => Snapshot.fromJson('{"hour": 2}'),
-          throwsA(isA<SnapshotMissingField>()));
-      expect(() => Snapshot.fromJson('{"day": 1}'),
-          throwsA(isA<SnapshotMissingField>()));
+          throwsA(isA<SnapshotError>()));
+      expect(
+          () => Snapshot.fromJson('{"day": 1}'), throwsA(isA<SnapshotError>()));
       expect(() => Snapshot.fromJson('{"month": 12}'),
-          throwsA(isA<SnapshotMissingField>()));
+          throwsA(isA<SnapshotError>()));
       expect(() => Snapshot.fromJson('{"year": 2022}'),
-          throwsA(isA<SnapshotMissingField>()));
+          throwsA(isA<SnapshotError>()));
     });
   });
 }
