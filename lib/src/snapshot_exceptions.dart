@@ -13,44 +13,6 @@ class InvalidDate {
   }
 }
 
-class SnapshotDateError extends ArgumentError {
-  final InvalidDate invalidDate;
-
-  late final String errMsg;
-  late final String errBody;
-  late final String invalidDateMsg;
-  late final String? hint;
-
-  SnapshotDateError(String errorMessage, this.invalidDate, {String? hint})
-      : super(errorMessage) {
-    // errMsg = runtimeType + errBody
-    errMsg = "$runtimeType: $message";
-
-    // Error body is the 'errMsg' without the runtimeType
-    errBody = errMsg.split(":").last.trim();
-
-    // InvalidDateMsg is the toString representation of InvalidDate
-    invalidDateMsg = invalidDate.toString();
-
-    // Hint is the message passed by who thrown the exception, and gives a hint
-    // on how to solve the problem
-    this.hint = hint == null ? "" : "\n$hint";
-  }
-
-  @override
-  String toString() {
-    // Checks if error happened in copyWith or Snapshot constructor
-    final isCopyWithErr = stackTrace.toString().contains("copyWith");
-    final functionName = isCopyWithErr ? ".copyWith" : "";
-
-    // Invalid code is the piece of code that raised the error
-    final invalidCode =
-        "Snapshot$functionName(${invalidDate.invalidParameter}: YOU SHOULD CORRECT HERE)";
-
-    return "$errMsg\n$invalidDateMsg\n$hint${hint!.isNotEmpty ? ' -> $invalidCode\n\n' : ''}$stackTrace";
-  }
-}
-
 class InvalidTime {
   final int millisecond;
   final int second;
@@ -73,24 +35,24 @@ class InvalidTime {
   }
 }
 
-class SnapshotTimeError extends ArgumentError {
-  InvalidTime invalidTime;
-
+class DateTimeError extends ArgumentError {
   late final String errMsg;
   late final String errBody;
-  late final String invalidTimeMsg;
   late final String? hint;
+  final String invalidDateMsg;
+  final String invalidParameter;
 
-  SnapshotTimeError(String errorMessage, this.invalidTime, {String? hint})
-      : super(errorMessage) {
+  DateTimeError(
+    String errorMessage,
+    this.invalidDateMsg,
+    this.invalidParameter, {
+    String? hint,
+  }) : super(errorMessage) {
     // errMsg = runtimeType + errBody
     errMsg = "$runtimeType: $message";
 
     // Error body is the 'errMsg' without the runtimeType
     errBody = errMsg.split(":").last.trim();
-
-    // InvalidDateMsg is the toString representation of InvalidDate
-    invalidTimeMsg = invalidTime.toString();
 
     // Hint is the message passed by who thrown the exception, and gives a hint
     // on how to solve the problem
@@ -105,10 +67,34 @@ class SnapshotTimeError extends ArgumentError {
 
     // Invalid code is the piece of code that raised the error
     final invalidCode =
-        "Snapshot$functionName(${invalidTime.invalidParameter}: YOU SHOULD CORRECT HERE)";
+        "Snapshot$functionName($invalidParameter: YOU SHOULD CORRECT HERE)";
 
-    return "$errMsg\n$invalidTime\n$hint${hint!.isNotEmpty ? ' -> $invalidCode\n\n' : ''}$stackTrace";
+    return "$errMsg\n$invalidDateMsg\n$hint${hint!.isNotEmpty ? ' -> $invalidCode\n\n' : ''}$stackTrace";
   }
+}
+
+class SnapshotDateError extends DateTimeError {
+  final InvalidDate invalidDate;
+
+  SnapshotDateError(String errorMessage, this.invalidDate, {String? hint})
+      : super(
+          errorMessage,
+          invalidDate.toString(),
+          invalidDate.invalidParameter,
+          hint: hint,
+        );
+}
+
+class SnapshotTimeError extends DateTimeError {
+  InvalidTime invalidTime;
+
+  SnapshotTimeError(String errorMessage, this.invalidTime, {String? hint})
+      : super(
+          errorMessage,
+          invalidTime.toString(),
+          invalidTime.invalidParameter,
+          hint: hint,
+        );
 }
 
 class SnapshotError implements Exception {
