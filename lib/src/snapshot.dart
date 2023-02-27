@@ -130,25 +130,25 @@ class Snapshot {
       final year = map['year'] as int?;
 
       if (millisecond == null) {
-        throw SnapshotMissingField("Missing millisecond field.");
+        throw SnapshotError("Missing millisecond field.");
       }
       if (second == null) {
-        throw SnapshotMissingField("Missing second field.");
+        throw SnapshotError("Missing second field.");
       }
       if (minute == null) {
-        throw SnapshotMissingField("Missing minute field.");
+        throw SnapshotError("Missing minute field.");
       }
       if (hour == null) {
-        throw SnapshotMissingField("Missing hour field.");
+        throw SnapshotError("Missing hour field.");
       }
       if (day == null) {
-        throw SnapshotMissingField("Missing day field.");
+        throw SnapshotError("Missing day field.");
       }
       if (month == null) {
-        throw SnapshotMissingField("Missing month field.");
+        throw SnapshotError("Missing month field.");
       }
       if (year == null) {
-        throw SnapshotMissingField("Missing year field.");
+        throw SnapshotError("Missing year field.");
       }
 
       return Snapshot(

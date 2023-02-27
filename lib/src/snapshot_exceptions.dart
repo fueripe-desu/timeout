@@ -111,17 +111,6 @@ class SnapshotTimeError extends ArgumentError {
   }
 }
 
-class SnapshotMissingField extends FormatException {
-  final String errMessage;
-
-  SnapshotMissingField(this.errMessage) : super(errMessage);
-
-  @override
-  String toString() {
-    return "$runtimeType: $message";
-  }
-}
-
 class SnapshotError implements Exception {
   final String errMessage;
 
