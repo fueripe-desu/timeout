@@ -11,5 +11,11 @@ class Range {
     this.endDate,
   );
 
+  // Getters for difference between initial and end dates
   int get differenceInEpoch => endDate.epochTime - initialDate.epochTime;
+  int get differenceInMilliseconds => differenceInEpoch;
+  int get differenceInSeconds => differenceInMilliseconds ~/ 1000;
+  int get differenceInMinutes => differenceInSeconds ~/ 60;
+  int get differenceInHours => differenceInMinutes ~/ 60;
+  int get differenceInDays => differenceInHours ~/ 24;
 }
