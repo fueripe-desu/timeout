@@ -10,4 +10,6 @@ class Range {
     this.initialDate,
     this.endDate,
   );
+
+  int get differenceInEpoch => endDate.epochTime - initialDate.epochTime;
 }
