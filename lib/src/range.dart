@@ -19,6 +19,7 @@ class Range {
   int get differenceInMinutes => differenceInSeconds ~/ 60;
   int get differenceInHours => differenceInMinutes ~/ 60;
   int get differenceInDays => differenceInHours ~/ 24;
+  int get differenceInWeeks => differenceInDays ~/ 7;
 
   Duration get difference => _calculdateDifferece(initialDate, endDate);
 
