@@ -51,5 +51,43 @@ void main() {
       // Difference in days == hours / 24
       expect(range.differenceInDays, equals(14));
     });
+
+    test(
+      "Should return the correct difference in Duration",
+      () {
+        final range1 = Range(
+          Snapshot(
+            day: 20,
+            month: 12,
+            year: 2022,
+            hour: 7,
+            minute: 35,
+            second: 27,
+            millisecond: 765,
+          ),
+          Snapshot(
+            day: 4,
+            month: 1,
+            year: 2023,
+            hour: 16,
+            minute: 26,
+            second: 13,
+            millisecond: 246,
+          ),
+        );
+
+        expect(
+          range1.difference,
+          equals(
+            const Duration(
+                days: 15,
+                hours: 8,
+                minutes: 50,
+                seconds: 45,
+                milliseconds: 481),
+          ),
+        );
+      },
+    );
   });
 }
