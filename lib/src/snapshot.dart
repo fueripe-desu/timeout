@@ -113,6 +113,18 @@ class Snapshot {
     );
   }
 
+  factory Snapshot.fromDateTime(DateTime datetime) {
+    return Snapshot(
+      millisecond: datetime.millisecond,
+      second: datetime.second,
+      minute: datetime.minute,
+      hour: datetime.hour,
+      day: datetime.day,
+      month: datetime.month,
+      year: datetime.year,
+    );
+  }
+
   factory Snapshot.fromMap(Map<String, dynamic> map) {
     try {
       return Snapshot(
