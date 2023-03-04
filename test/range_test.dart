@@ -90,4 +90,89 @@ void main() {
       },
     );
   });
+
+  group('Range immutable data class methods', () {
+    final initialDate =
+        Snapshot.fromDateTime(DateTime(2022, 12, 20, 7, 35, 38, 930));
+    final endDate =
+        Snapshot.fromDateTime(DateTime(2023, 1, 4, 16, 26, 13, 246));
+
+    final range = Range(initialDate: initialDate, endDate: endDate);
+
+    test('toJson() returns expected JSON string', () {
+      const expectedJson =
+          '{"initialDate":{"millisecond":930,"second":38,"minute":35,"hour":7,"day":20,"month":12,"year":2022},"endDate":{"millisecond":246,"second":13,"minute":26,"hour":16,"day":4,"month":1,"year":2023}}';
+
+      expect(range.toJson(), equals(expectedJson));
+    });
+
+    test('toMap() returns expected map', () {
+      final expectedMap = {
+        'initialDate': {
+          "millisecond": 930,
+          "second": 38,
+          "minute": 35,
+          "hour": 7,
+          "day": 20,
+          "month": 12,
+          "year": 2022
+        },
+        'endDate': {
+          "millisecond": 246,
+          "second": 13,
+          "minute": 26,
+          "hour": 16,
+          "day": 4,
+          "month": 1,
+          "year": 2023
+        },
+      };
+
+      expect(range.toMap(), equals(expectedMap));
+    });
+
+    test('copyWith() returns expected Range object', () {
+      final newInitialDate = Snapshot.fromDateTime(DateTime(2021, 1, 1));
+      final newRange = range.copyWith(initialDate: newInitialDate);
+
+      expect(newRange.initialDate, equals(newInitialDate));
+      expect(newRange.endDate, equals(endDate));
+    });
+
+    test('fromMap() returns expected Range object', () {
+      final map = {
+        'initialDate': {
+          "millisecond": 930,
+          "second": 38,
+          "minute": 35,
+          "hour": 7,
+          "day": 20,
+          "month": 12,
+          "year": 2022
+        },
+        'endDate': {
+          "millisecond": 246,
+          "second": 13,
+          "minute": 26,
+          "hour": 16,
+          "day": 4,
+          "month": 1,
+          "year": 2023
+        },
+      };
+
+      final expectedRange = Range(initialDate: initialDate, endDate: endDate);
+
+      expect(Range.fromMap(map), equals(expectedRange));
+    });
+
+    test('fromJson() returns expected Range object', () {
+      const jsonStr =
+          '{"initialDate":{"millisecond":930,"second":38,"minute":35,"hour":7,"day":20,"month":12,"year":2022},"endDate":{"millisecond":246,"second":13,"minute":26,"hour":16,"day":4,"month":1,"year":2023}}';
+
+      final expectedRange = Range(initialDate: initialDate, endDate: endDate);
+
+      expect(Range.fromJson(jsonStr), equals(expectedRange));
+    });
+  });
 }
