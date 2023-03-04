@@ -17,8 +17,8 @@ class Range {
   factory Range.fromMap(Map<String, dynamic> map) {
     try {
       return Range(
-        initialDate: map['initialDate'] as Snapshot,
-        endDate: map['endDate'] as Snapshot,
+        initialDate: Snapshot.fromMap(map['initialDate']),
+        endDate: Snapshot.fromMap(map['endDate']),
       );
     } catch (err) {
       throw Exception('Invalid map: $err');
@@ -108,4 +108,16 @@ class Range {
   }
 
   String toJson() => json.encode(toMap());
+
+  @override
+  bool operator ==(Object other) {
+    return other is Range &&
+        initialDate == other.initialDate &&
+        endDate == other.endDate;
+  }
+
+  @override
+  int get hashCode {
+    return initialDate.hashCode ^ endDate.hashCode;
+  }
 }
