@@ -50,6 +50,21 @@ class Range {
   int get differenceInDays => differenceInHours ~/ 24;
   int get differenceInWeeks => differenceInDays ~/ 7;
 
+  bool includes(Snapshot snapshot) {
+    return _isWhitinBounds(initialDate.year, endDate.year, snapshot.year) &&
+        _isWhitinBounds(initialDate.month, endDate.month, snapshot.month) &&
+        _isWhitinBounds(initialDate.day, endDate.day, snapshot.day) &&
+        _isWhitinBounds(initialDate.hour, endDate.hour, snapshot.hour) &&
+        _isWhitinBounds(initialDate.minute, endDate.minute, snapshot.minute) &&
+        _isWhitinBounds(initialDate.second, endDate.second, snapshot.second) &&
+        _isWhitinBounds(
+            initialDate.millisecond, endDate.millisecond, snapshot.millisecond);
+  }
+
+  bool _isWhitinBounds(int lowerBound, int upperBound, int value) {
+    return (value >= lowerBound) && (value <= upperBound);
+  }
+
   Duration get difference => _calculdateDifferece(initialDate, endDate);
 
   Duration _calculdateDifferece(Snapshot intial, Snapshot end) {
