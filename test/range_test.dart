@@ -20,7 +20,7 @@ void main() {
         minute: 26,
         second: 6,
         millisecond: 675);
-    final range = Range(initialDate, endDate);
+    final range = Range(initialDate: initialDate, endDate: endDate);
 
     test('Should return the difference in epoch', () {
       // Difference in Epoch is in milliseconds
@@ -56,7 +56,7 @@ void main() {
       "Should return the correct difference in Duration",
       () {
         final range1 = Range(
-          Snapshot(
+          initialDate: Snapshot(
             day: 20,
             month: 12,
             year: 2022,
@@ -65,7 +65,7 @@ void main() {
             second: 27,
             millisecond: 765,
           ),
-          Snapshot(
+          endDate: Snapshot(
             day: 4,
             month: 1,
             year: 2023,
