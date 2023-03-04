@@ -29,15 +29,8 @@ class Range {
     try {
       final map = json.decode(source) as Map<String, dynamic>;
 
-      final initialDate = map['initialDate'] as Snapshot?;
-      final endDate = map['endDate'] as Snapshot?;
-
-      if (initialDate == null) {
-        throw Exception("Missing initialDate field.");
-      }
-      if (endDate == null) {
-        throw Exception("Missing endDate field.");
-      }
+      final initialDate = Snapshot.fromMap(map['initialDate']);
+      final endDate = Snapshot.fromMap(map['endDate']);
 
       return Range(
         initialDate: initialDate,
