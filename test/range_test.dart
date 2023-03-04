@@ -175,4 +175,57 @@ void main() {
       expect(Range.fromJson(jsonStr), equals(expectedRange));
     });
   });
+
+  group('Range includes() method', () {
+    final range = Range(
+      initialDate:
+          Snapshot.fromDateTime(DateTime(2022, 01, 01, 12, 00, 00, 00)),
+      endDate: Snapshot.fromDateTime(DateTime(2022, 01, 10, 12, 00, 00, 00)),
+    );
+
+    test('Should return true when the Snapshot is within the range', () {
+      final snapshot =
+          Snapshot.fromDateTime(DateTime(2022, 01, 05, 12, 00, 00, 00));
+      expect(range.includes(snapshot), isTrue);
+    });
+
+    test('Should return false when the Snapshot is before the range', () {
+      final snapshot =
+          Snapshot.fromDateTime(DateTime(2021, 12, 31, 12, 00, 00, 00));
+      expect(range.includes(snapshot), isFalse);
+    });
+
+    test('Should return false when the Snapshot is after the range', () {
+      final snapshot =
+          Snapshot.fromDateTime(DateTime(2022, 01, 12, 12, 00, 00, 00));
+      expect(range.includes(snapshot), isFalse);
+    });
+
+    test('Should return true when the Snapshot is at the start of the range',
+        () {
+      final snapshot = range.initialDate;
+      expect(range.includes(snapshot), isTrue);
+    });
+
+    test('Should return true when the Snapshot is at the end of the range', () {
+      final snapshot = range.endDate;
+      expect(range.includes(snapshot), isTrue);
+    });
+
+    test(
+        'Should return true when the Snapshot has the same date/time components as the start of the range',
+        () {
+      final snapshot =
+          Snapshot.fromDateTime(DateTime(2022, 01, 01, 12, 00, 00, 00));
+      expect(range.includes(snapshot), isTrue);
+    });
+
+    test(
+        'Should return true when the Snapshot has the same date/time components as the end of the range',
+        () {
+      final snapshot =
+          Snapshot.fromDateTime(DateTime(2022, 01, 10, 12, 00, 00, 00));
+      expect(range.includes(snapshot), isTrue);
+    });
+  });
 }
