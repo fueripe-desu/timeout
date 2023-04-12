@@ -74,6 +74,55 @@ class Range {
         endDate.epochTime >= range.endDate.epochTime;
   }
 
+  Range rangeDifference(Range range) {
+    // If the given range is completely outside of this range, return this range
+    if (range.endDate.epochTime <= initialDate.epochTime ||
+        range.initialDate.epochTime >= endDate.epochTime) {
+      return this;
+    }
+
+    // If the given range is completely inside of this range, split this range
+    // into two parts and return the parts outside of the given range.
+    if (range.initialDate.epochTime >= initialDate.epochTime &&
+        range.endDate.epochTime <= endDate.epochTime) {
+      final leftRange = Range(
+        initialDate: initialDate,
+        endDate: range.initialDate,
+      );
+      final rightRange = Range(
+        initialDate: range.endDate,
+        endDate: endDate,
+      );
+      if (leftRange.difference.inMilliseconds <
+          rightRange.difference.inMilliseconds) {
+        return leftRange;
+      } else {
+        return rightRange;
+      }
+    }
+
+    // If the given range overlaps with this range, return the part of this
+    // range that does not overlap with the given range.
+    if (range.initialDate.epochTime < initialDate.epochTime &&
+        range.endDate.epochTime > initialDate.epochTime &&
+        range.endDate.epochTime < endDate.epochTime) {
+      return Range(
+        initialDate: range.endDate,
+        endDate: endDate,
+      );
+    }
+    if (range.initialDate.epochTime > initialDate.epochTime &&
+        range.initialDate.epochTime < endDate.epochTime &&
+        range.endDate.epochTime > endDate.epochTime) {
+      return Range(
+        initialDate: initialDate,
+        endDate: range.initialDate,
+      );
+    }
+
+    throw Exception('Unexpected case in rangeDifference() method');
+  }
+
   bool _isWhitinBounds(int lowerBound, int upperBound, int value) {
     return (value >= lowerBound) && (value <= upperBound);
   }
