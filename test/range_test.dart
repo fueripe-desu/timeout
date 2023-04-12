@@ -331,4 +331,149 @@ void main() {
       expect(range1.cross(range2), isTrue);
     });
   });
+
+  group("Range contains() method", () {
+    final initialDate = Snapshot(
+      year: 2021,
+      month: 1,
+      day: 1,
+      hour: 0,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+    );
+    final endDate = Snapshot(
+      year: 2021,
+      month: 1,
+      day: 31,
+      hour: 23,
+      minute: 59,
+      second: 59,
+      millisecond: 999,
+    );
+    final range = Range(initialDate: initialDate, endDate: endDate);
+    test('should return true if given range is inside', () {
+      final insideRange = Range(
+        initialDate: Snapshot(
+          year: 2021,
+          month: 1,
+          day: 10,
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        ),
+        endDate: Snapshot(
+          year: 2021,
+          month: 1,
+          day: 20,
+          hour: 23,
+          minute: 59,
+          second: 59,
+          millisecond: 999,
+        ),
+      );
+
+      final result = range.contains(insideRange);
+
+      expect(result, isTrue);
+    });
+
+    test('should return true if given range is equal', () {
+      final equalRange = Range(
+        initialDate: Snapshot(
+          year: 2021,
+          month: 1,
+          day: 1,
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        ),
+        endDate: Snapshot(
+          year: 2021,
+          month: 1,
+          day: 31,
+          hour: 23,
+          minute: 59,
+          second: 59,
+          millisecond: 999,
+        ),
+      );
+
+      final result = range.contains(equalRange);
+
+      expect(result, isTrue);
+    });
+
+    test('should return false if given range is partially outside', () {
+      final partialRange = Range(
+        initialDate: Snapshot(
+          year: 2021,
+          month: 1,
+          day: 10,
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        ),
+        endDate: Snapshot(
+          year: 2021,
+          month: 2,
+          day: 10,
+          hour: 23,
+          minute: 59,
+          second: 59,
+          millisecond: 999,
+        ),
+      );
+
+      final result = range.contains(partialRange);
+
+      expect(result, isFalse);
+    });
+
+    test('should return false if given range is completely outside', () {
+      final outsideRange = Range(
+        initialDate: Snapshot(
+          year: 2021,
+          month: 2,
+          day: 1,
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        ),
+        endDate: Snapshot(
+          year: 2021,
+          month: 2,
+          day: 28,
+          hour: 23,
+          minute: 59,
+          second: 59,
+          millisecond: 999,
+        ),
+      );
+
+      final result = range.contains(outsideRange);
+
+      expect(result, isFalse);
+    });
+
+    test(
+        'should return true if given range is same date as initialDate and endDate',
+        () {
+      final range = Range(
+        initialDate: Snapshot(year: 2022, month: 04, day: 12),
+        endDate: Snapshot(year: 2022, month: 04, day: 12),
+      );
+
+      final containedRange = Range(
+        initialDate: Snapshot(year: 2022, month: 04, day: 12),
+        endDate: Snapshot(year: 2022, month: 04, day: 12),
+      );
+
+      expect(range.contains(containedRange), isTrue);
+    });
+  });
 }
