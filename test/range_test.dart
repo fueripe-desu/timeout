@@ -476,4 +476,76 @@ void main() {
       expect(range.contains(containedRange), isTrue);
     });
   });
+
+  group('Range rangeDifference() method', () {
+    test(
+        'rangeDifference should return the entire range when the input range is completely outside of this range',
+        () {
+      final initialDate = Snapshot(year: 2021, month: 1, day: 1);
+      final endDate = Snapshot(year: 2021, month: 2, day: 1);
+      final range = Range(initialDate: initialDate, endDate: endDate);
+
+      final otherInitialDate = Snapshot(year: 2021, month: 3, day: 1);
+      final otherEndDate = Snapshot(year: 2021, month: 4, day: 1);
+      final otherRange =
+          Range(initialDate: otherInitialDate, endDate: otherEndDate);
+
+      final result = range.rangeDifference(otherRange);
+
+      expect(result.initialDate, equals(initialDate));
+      expect(result.endDate, equals(endDate));
+    });
+
+    test(
+        'rangeDifference should split the range into two parts when the input range is completely inside of this range',
+        () {
+      final initialDate = Snapshot(year: 2023, month: 4, day: 1);
+      final endDate = Snapshot(year: 2023, month: 4, day: 15);
+      final range = Range(initialDate: initialDate, endDate: endDate);
+      final innerInitialDate = Snapshot(year: 2023, month: 4, day: 4);
+      final innerEndDate = Snapshot(year: 2023, month: 4, day: 10);
+      final innerRange =
+          Range(initialDate: innerInitialDate, endDate: innerEndDate);
+      final result = range.rangeDifference(innerRange);
+      expect(result, isNotNull);
+      expect(result.initialDate, equals(initialDate));
+      expect(result.endDate, equals(innerInitialDate));
+    });
+
+    test(
+        'rangeDifference should return the right part of the range when the input range overlaps on the left',
+        () {
+      final initialDate = Snapshot(year: 2021, month: 1, day: 1);
+      final endDate = Snapshot(year: 2021, month: 3, day: 1);
+      final range = Range(initialDate: initialDate, endDate: endDate);
+
+      final otherInitialDate = Snapshot(year: 2020, month: 12, day: 15);
+      final otherEndDate = Snapshot(year: 2021, month: 1, day: 15);
+      final otherRange =
+          Range(initialDate: otherInitialDate, endDate: otherEndDate);
+
+      final result = range.rangeDifference(otherRange);
+
+      expect(result.initialDate, equals(otherEndDate));
+      expect(result.endDate, equals(endDate));
+    });
+
+    test(
+        'rangeDifference should return the left part of the range when the input range overlaps on the right',
+        () {
+      final initialDate = Snapshot(year: 2021, month: 1, day: 1);
+      final endDate = Snapshot(year: 2021, month: 3, day: 1);
+      final range = Range(initialDate: initialDate, endDate: endDate);
+
+      final otherInitialDate = Snapshot(year: 2021, month: 2, day: 15);
+      final otherEndDate = Snapshot(year: 2021, month: 4, day: 1);
+      final otherRange =
+          Range(initialDate: otherInitialDate, endDate: otherEndDate);
+
+      final result = range.rangeDifference(otherRange);
+
+      expect(result.initialDate, equals(initialDate));
+      expect(result.endDate, equals(otherInitialDate));
+    });
+  });
 }
