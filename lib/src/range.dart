@@ -61,6 +61,14 @@ class Range {
             initialDate.millisecond, endDate.millisecond, snapshot.millisecond);
   }
 
+  bool cross(Range range) {
+    final left = initialDate.epochTime;
+    final right = endDate.epochTime;
+    final otherLeft = range.initialDate.epochTime;
+    final otherRight = range.endDate.epochTime;
+    return (left <= otherRight) && (right >= otherLeft);
+  }
+
   bool _isWhitinBounds(int lowerBound, int upperBound, int value) {
     return (value >= lowerBound) && (value <= upperBound);
   }
