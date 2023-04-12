@@ -69,6 +69,11 @@ class Range {
     return (left <= otherRight) && (right >= otherLeft);
   }
 
+  bool contains(Range range) {
+    return initialDate.epochTime <= range.initialDate.epochTime &&
+        endDate.epochTime >= range.endDate.epochTime;
+  }
+
   bool _isWhitinBounds(int lowerBound, int upperBound, int value) {
     return (value >= lowerBound) && (value <= upperBound);
   }
