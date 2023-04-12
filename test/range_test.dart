@@ -228,4 +228,107 @@ void main() {
       expect(range.includes(snapshot), isTrue);
     });
   });
+
+  group("Range cross() method", () {
+    test('should return true if ranges overlap', () {
+      final range1 = Range(
+        initialDate: Snapshot(
+          year: 2022,
+          month: 3,
+          day: 1,
+          hour: 9,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        ),
+        endDate: Snapshot(
+          year: 2022,
+          month: 3,
+          day: 1,
+          hour: 11,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        ),
+      );
+
+      final range2 = Range(
+        initialDate: Snapshot(
+          year: 2022,
+          month: 3,
+          day: 1,
+          hour: 10,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        ),
+        endDate: Snapshot(
+          year: 2022,
+          month: 3,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        ),
+      );
+
+      expect(range1.cross(range2), isTrue);
+    });
+
+    test('should return false if ranges do not overlap', () {
+      final range1 = Range(
+        initialDate: Snapshot(
+          year: 2022,
+          month: 3,
+          day: 1,
+          hour: 9,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        ),
+        endDate: Snapshot(
+          year: 2022,
+          month: 3,
+          day: 1,
+          hour: 10,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        ),
+      );
+
+      final range2 = Range(
+        initialDate: Snapshot(
+          year: 2022,
+          month: 3,
+          day: 1,
+          hour: 11,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        ),
+        endDate: Snapshot(
+          year: 2022,
+          month: 3,
+          day: 1,
+          hour: 12,
+          minute: 0,
+          second: 0,
+          millisecond: 0,
+        ),
+      );
+
+      expect(range1.cross(range2), isFalse);
+    });
+
+    test('cross should return true if ranges have the same start and end dates',
+        () {
+      final snapshot = Snapshot(
+          year: 2022, month: 4, day: 15, hour: 15, minute: 0, second: 0);
+      final range1 = Range(initialDate: snapshot, endDate: snapshot);
+      final range2 = Range(initialDate: snapshot, endDate: snapshot);
+      expect(range1.cross(range2), isTrue);
+    });
+  });
 }
