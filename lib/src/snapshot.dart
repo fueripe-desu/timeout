@@ -14,6 +14,7 @@ class Snapshot {
   final int day;
   final int month;
   final int year;
+  late final int epochTime;
 
   Snapshot({
     this.millisecond = 0,
@@ -82,6 +83,17 @@ class Snapshot {
               "Try correcting the millisecond passed to Snapshot() or Snapshot.copyWith() to a value between 0 and 999",
         );
       }
+
+      // Sets epoch time
+      epochTime = DateTime(
+        year,
+        month,
+        day,
+        hour,
+        minute,
+        second,
+        millisecond,
+      ).toUtc().millisecondsSinceEpoch;
     } catch (err) {
       rethrow;
     }
@@ -98,6 +110,18 @@ class Snapshot {
       day: now.day,
       month: now.month,
       year: now.year,
+    );
+  }
+
+  factory Snapshot.fromDateTime(DateTime datetime) {
+    return Snapshot(
+      millisecond: datetime.millisecond,
+      second: datetime.second,
+      minute: datetime.minute,
+      hour: datetime.hour,
+      day: datetime.day,
+      month: datetime.month,
+      year: datetime.year,
     );
   }
 
