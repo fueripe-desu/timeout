@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 
 import 'snapshot_exceptions.dart';
@@ -257,6 +258,50 @@ class Snapshot {
         day == other.day &&
         month == other.month &&
         year == other.year;
+  }
+
+  bool operator <(Object other) {
+    return other is Snapshot &&
+        millisecond < other.millisecond &&
+        second < other.second &&
+        minute < other.minute &&
+        hour < other.hour &&
+        day < other.day &&
+        month < other.month &&
+        year < other.year;
+  }
+
+  bool operator >(Object other) {
+    return other is Snapshot &&
+        millisecond > other.millisecond &&
+        second > other.second &&
+        minute > other.minute &&
+        hour > other.hour &&
+        day > other.day &&
+        month > other.month &&
+        year > other.year;
+  }
+
+  bool operator <=(Object other) {
+    return other is Snapshot &&
+        millisecond <= other.millisecond &&
+        second <= other.second &&
+        minute <= other.minute &&
+        hour <= other.hour &&
+        day <= other.day &&
+        month <= other.month &&
+        year <= other.year;
+  }
+
+  bool operator >=(Object other) {
+    return other is Snapshot &&
+        millisecond >= other.millisecond &&
+        second >= other.second &&
+        minute >= other.minute &&
+        hour >= other.hour &&
+        day >= other.day &&
+        month >= other.month &&
+        year >= other.year;
   }
 
   @override
