@@ -702,7 +702,9 @@ void main() {
       expect(endOfDaySnapshot.second, 59);
       expect(endOfDaySnapshot.millisecond, 999);
     });
+  });
 
+  group("Snapshot endOfHour getter", () {
     test('should return a Snapshot representing the end of the hour', () {
       final snapshot = Snapshot(
         year: 2023,
@@ -724,7 +726,9 @@ void main() {
       expect(endOfHourSnapshot.second, 59);
       expect(endOfHourSnapshot.millisecond, 999);
     });
+  });
 
+  group("Snapshot endOfMinute getter", () {
     test('should return a Snapshot representing the end of the minute', () {
       final snapshot = Snapshot(
         year: 2023,
@@ -746,7 +750,9 @@ void main() {
       expect(endOfMinuteSnapshot.second, 59);
       expect(endOfMinuteSnapshot.millisecond, 999);
     });
+  });
 
+  group("Snapshot endOfSecond getter", () {
     test('should return a Snapshot representing the end of the second', () {
       final snapshot = Snapshot(
         year: 2023,
