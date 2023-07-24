@@ -680,6 +680,30 @@ void main() {
     });
   });
 
+  group("Snapshot endOfDay getter", () {
+    test('should return a Snapshot representing the end of the day', () {
+      final snapshot = Snapshot(
+        year: 2023,
+        month: 7,
+        day: 24,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      final endOfDaySnapshot = snapshot.endOfDay;
+
+      expect(endOfDaySnapshot.year, 2023);
+      expect(endOfDaySnapshot.month, 7);
+      expect(endOfDaySnapshot.day, 24);
+      expect(endOfDaySnapshot.hour, 23);
+      expect(endOfDaySnapshot.minute, 59);
+      expect(endOfDaySnapshot.second, 59);
+      expect(endOfDaySnapshot.millisecond, 999);
+    });
+  });
+
   group("Snapshot hashCode method", () {
     test('should return the same hash code for equal Snapshots', () {
       final snapshot1 = Snapshot(
