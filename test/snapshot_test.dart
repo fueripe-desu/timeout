@@ -746,6 +746,28 @@ void main() {
       expect(endOfMinuteSnapshot.second, 59);
       expect(endOfMinuteSnapshot.millisecond, 999);
     });
+
+    test('should return a Snapshot representing the end of the second', () {
+      final snapshot = Snapshot(
+        year: 2023,
+        month: 7,
+        day: 24,
+        hour: 15,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      final endOfSecondSnapshot = snapshot.endOfSecond;
+
+      expect(endOfSecondSnapshot.year, 2023);
+      expect(endOfSecondSnapshot.month, 7);
+      expect(endOfSecondSnapshot.day, 24);
+      expect(endOfSecondSnapshot.hour, 15);
+      expect(endOfSecondSnapshot.minute, 30);
+      expect(endOfSecondSnapshot.second, 45);
+      expect(endOfSecondSnapshot.millisecond, 999);
+    });
   });
 
   group("Snapshot hashCode method", () {
