@@ -193,6 +193,16 @@ class Snapshot {
   bool get isLeapYear => _isLeapYear(year);
   int get daysInMonth => _daysInMonth(month, year);
 
+  Snapshot get endOfDay => Snapshot(
+        year: year,
+        month: month,
+        day: day,
+        hour: 23,
+        minute: 59,
+        second: 59,
+        millisecond: 999,
+      );
+
   bool _isLeapYear(int year) {
     return year % 4 == 0 && (!(year % 100 == 0) || year % 400 == 0);
   }
