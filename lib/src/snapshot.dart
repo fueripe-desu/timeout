@@ -223,6 +223,16 @@ class Snapshot {
         millisecond: 999,
       );
 
+  Snapshot get endOfSecond => Snapshot(
+        year: year,
+        month: month,
+        day: day,
+        hour: hour,
+        minute: minute,
+        second: second,
+        millisecond: 999,
+      );
+
   bool _isLeapYear(int year) {
     return year % 4 == 0 && (!(year % 100 == 0) || year % 400 == 0);
   }
