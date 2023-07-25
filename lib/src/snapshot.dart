@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
+import 'package:timeout/src/constants.dart';
 
 import 'snapshot_exceptions.dart';
 
@@ -115,6 +116,21 @@ class Snapshot {
   }
 
   factory Snapshot.fromDateTime(DateTime datetime) {
+    return Snapshot(
+      millisecond: datetime.millisecond,
+      second: datetime.second,
+      minute: datetime.minute,
+      hour: datetime.hour,
+      day: datetime.day,
+      month: datetime.month,
+      year: datetime.year,
+    );
+  }
+
+  factory Snapshot.fromEpochTime(int millisecondsSinceEpoch) {
+    final datetime =
+        DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
+
     return Snapshot(
       millisecond: datetime.millisecond,
       second: datetime.second,
