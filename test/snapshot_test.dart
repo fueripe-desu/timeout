@@ -704,6 +704,33 @@ void main() {
     });
   });
 
+  group("Snapshot endOfYear getter", () {
+    test('should return the end of the year', () {
+      // Arrange
+      final snapshot = Snapshot(
+        year: 2023,
+        month: 6,
+        day: 10,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      // Act
+      final endOfYearSnapshot = snapshot.endOfYear;
+
+      // Assert
+      expect(endOfYearSnapshot.year, 2023);
+      expect(endOfYearSnapshot.month, 12);
+      expect(endOfYearSnapshot.day, 31);
+      expect(endOfYearSnapshot.hour, 23);
+      expect(endOfYearSnapshot.minute, 59);
+      expect(endOfYearSnapshot.second, 59);
+      expect(endOfYearSnapshot.millisecond, 999);
+    });
+  });
+
   group('Snapshot endOfMonth getter', () {
     test('should return the end of February for a non-leap year', () {
       // Arrange
