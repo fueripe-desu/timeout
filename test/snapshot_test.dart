@@ -706,29 +706,29 @@ void main() {
 
   group('Snapshot fromEpochTime() factory', () {
     test(
-        'should create a Snapshot and convert back to milliseconds since epoch',
+        'should create a Snapshot and convert back to milliseconds since epoch without using UTC',
         () {
-      final snapshot = Snapshot(
-        year: 2024,
-        month: 2,
-        day: 12,
-        hour: 12,
-        minute: 37,
-        second: 31,
-        millisecond: 400,
+      final firstSnapshot = Snapshot(
+        year: 2021,
+        month: 7,
+        day: 29,
+        hour: 22,
+        minute: 11,
+        second: 25,
+        millisecond: 0,
       );
 
-      final epochTime = snapshot.epochTime;
+      final epochTime = firstSnapshot.epochTime;
 
-      final fromEpochTime = Snapshot.fromEpochTime(epochTime, true);
+      final fromEpochTime = Snapshot.fromEpochTime(epochTime, false);
 
-      expect(fromEpochTime.year, snapshot.year);
-      expect(fromEpochTime.month, snapshot.month);
-      expect(fromEpochTime.day, snapshot.day);
-      expect(fromEpochTime.hour, snapshot.hour);
-      expect(fromEpochTime.minute, snapshot.minute);
-      expect(fromEpochTime.second, snapshot.second);
-      expect(fromEpochTime.millisecond, snapshot.millisecond);
+      expect(fromEpochTime.year, firstSnapshot.year);
+      expect(fromEpochTime.month, firstSnapshot.month);
+      expect(fromEpochTime.day, firstSnapshot.day);
+      expect(fromEpochTime.hour, firstSnapshot.hour);
+      expect(fromEpochTime.minute, firstSnapshot.minute);
+      expect(fromEpochTime.second, firstSnapshot.second);
+      expect(fromEpochTime.millisecond, firstSnapshot.millisecond);
     });
   });
 
