@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:meta/meta.dart';
-import 'package:timeout/src/constants.dart';
 
 import 'snapshot_exceptions.dart';
 
@@ -16,6 +15,7 @@ class Snapshot {
   final int month;
   final int year;
   late final int epochTime;
+  final bool isUtc;
 
   Snapshot({
     this.millisecond = 0,
@@ -25,6 +25,7 @@ class Snapshot {
     this.day = 1,
     this.month = 1,
     this.year = 1,
+    this.isUtc = false,
   }) {
     try {
       if (year < 1 || year > 275760) {
@@ -86,15 +87,27 @@ class Snapshot {
       }
 
       // Sets epoch time
-      epochTime = DateTime(
-        year,
-        month,
-        day,
-        hour,
-        minute,
-        second,
-        millisecond,
-      ).millisecondsSinceEpoch;
+      if (isUtc) {
+        epochTime = DateTime.utc(
+          year,
+          month,
+          day,
+          hour,
+          minute,
+          second,
+          millisecond,
+        ).millisecondsSinceEpoch;
+      } else {
+        epochTime = DateTime(
+          year,
+          month,
+          day,
+          hour,
+          minute,
+          second,
+          millisecond,
+        ).millisecondsSinceEpoch;
+      }
     } catch (err) {
       rethrow;
     }
@@ -111,6 +124,7 @@ class Snapshot {
       day: now.day,
       month: now.month,
       year: now.year,
+      isUtc: now.isUtc,
     );
   }
 
@@ -123,6 +137,7 @@ class Snapshot {
       day: datetime.day,
       month: datetime.month,
       year: datetime.year,
+      isUtc: datetime.isUtc,
     );
   }
 
@@ -140,12 +155,14 @@ class Snapshot {
       day: datetime.day,
       month: datetime.month,
       year: datetime.year,
+      isUtc: isUtc,
     );
   }
 
   factory Snapshot.fromMap(Map<String, dynamic> map) {
     try {
       return Snapshot(
+        isUtc: map['isUtc'] as bool,
         millisecond: map['millisecond'] as int,
         second: map['second'] as int,
         minute: map['minute'] as int,
@@ -163,6 +180,7 @@ class Snapshot {
     try {
       final map = json.decode(source) as Map<String, dynamic>;
 
+      final isUtc = map['isUtc'] as bool;
       final millisecond = map['millisecond'] as int?;
       final second = map['second'] as int?;
       final minute = map['minute'] as int?;
@@ -201,6 +219,7 @@ class Snapshot {
         day: day,
         month: month,
         year: year,
+        isUtc: isUtc,
       );
     } catch (err) {
       throw SnapshotError('Invalid JSON string: $err');
