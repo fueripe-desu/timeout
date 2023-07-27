@@ -730,6 +730,33 @@ void main() {
       expect(fromEpochTime.second, firstSnapshot.second);
       expect(fromEpochTime.millisecond, firstSnapshot.millisecond);
     });
+
+    test(
+        'should create a Snapshot and convert back to milliseconds since epoch using UTC',
+        () {
+      final firstSnapshot = Snapshot(
+        year: 2021,
+        month: 7,
+        day: 29,
+        hour: 22,
+        minute: 11,
+        second: 25,
+        millisecond: 0,
+        isUtc: true,
+      );
+
+      final epochTime = firstSnapshot.epochTime;
+
+      final fromEpochTime = Snapshot.fromEpochTime(epochTime, true);
+
+      expect(fromEpochTime.year, firstSnapshot.year);
+      expect(fromEpochTime.month, firstSnapshot.month);
+      expect(fromEpochTime.day, firstSnapshot.day);
+      expect(fromEpochTime.hour, firstSnapshot.hour);
+      expect(fromEpochTime.minute, firstSnapshot.minute);
+      expect(fromEpochTime.second, firstSnapshot.second);
+      expect(fromEpochTime.millisecond, firstSnapshot.millisecond);
+    });
   });
 
   group("Snapshot endOfYear getter", () {
@@ -1213,6 +1240,7 @@ void main() {
   group("Snapshot fromMap() factory", () {
     test('should return a snapshot from a valid map', () {
       final map = <String, dynamic>{
+        'isUtc': false,
         'millisecond': 0,
         'second': 0,
         'minute': 0,
@@ -1374,7 +1402,7 @@ void main() {
   group("Snapshot fromJson() factory", () {
     test('fromJson() should return a Snapshot object from valid JSON', () {
       const jsonStr =
-          '{"millisecond": 500, "second": 59, "minute": 30, "hour": 12, "day": 15, "month": 2, "year": 2022}';
+          '{"isUtc": false, "millisecond": 500, "second": 59, "minute": 30, "hour": 12, "day": 15, "month": 2, "year": 2022}';
       final snapshot = Snapshot.fromJson(jsonStr);
 
       expect(snapshot.millisecond, 500);

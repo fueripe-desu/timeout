@@ -142,6 +142,7 @@ void main() {
     test('fromMap() returns expected Range object', () {
       final map = {
         'initialDate': {
+          "isUtc": false,
           "millisecond": 930,
           "second": 38,
           "minute": 35,
@@ -151,6 +152,7 @@ void main() {
           "year": 2022
         },
         'endDate': {
+          "isUtc": false,
           "millisecond": 246,
           "second": 13,
           "minute": 26,
@@ -168,7 +170,7 @@ void main() {
 
     test('fromJson() returns expected Range object', () {
       const jsonStr =
-          '{"initialDate":{"millisecond":930,"second":38,"minute":35,"hour":7,"day":20,"month":12,"year":2022},"endDate":{"millisecond":246,"second":13,"minute":26,"hour":16,"day":4,"month":1,"year":2023}}';
+          '{"initialDate":{"isUtc": false, "millisecond":930,"second":38,"minute":35,"hour":7,"day":20,"month":12,"year":2022},"endDate":{"isUtc": false, "millisecond":246,"second":13,"minute":26,"hour":16,"day":4,"month":1,"year":2023}}';
 
       final expectedRange = Range(initialDate: initialDate, endDate: endDate);
 
