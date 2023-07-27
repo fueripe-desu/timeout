@@ -704,6 +704,34 @@ void main() {
     });
   });
 
+  group('Snapshot fromEpochTime() factory', () {
+    test(
+        'should create a Snapshot and convert back to milliseconds since epoch',
+        () {
+      final snapshot = Snapshot(
+        year: 2024,
+        month: 2,
+        day: 12,
+        hour: 12,
+        minute: 37,
+        second: 31,
+        millisecond: 400,
+      );
+
+      final epochTime = snapshot.epochTime;
+
+      final fromEpochTime = Snapshot.fromEpochTime(epochTime, true);
+
+      expect(fromEpochTime.year, snapshot.year);
+      expect(fromEpochTime.month, snapshot.month);
+      expect(fromEpochTime.day, snapshot.day);
+      expect(fromEpochTime.hour, snapshot.hour);
+      expect(fromEpochTime.minute, snapshot.minute);
+      expect(fromEpochTime.second, snapshot.second);
+      expect(fromEpochTime.millisecond, snapshot.millisecond);
+    });
+  });
+
   group("Snapshot endOfYear getter", () {
     test('should return the end of the year', () {
       // Arrange
