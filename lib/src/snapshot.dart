@@ -127,9 +127,11 @@ class Snapshot {
     );
   }
 
-  factory Snapshot.fromEpochTime(int millisecondsSinceEpoch) {
-    final datetime =
-        DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
+  factory Snapshot.fromEpochTime(int millisecondsSinceEpoch, bool isUtc) {
+    final datetime = DateTime.fromMillisecondsSinceEpoch(
+      millisecondsSinceEpoch,
+      isUtc: isUtc,
+    );
 
     return Snapshot(
       millisecond: datetime.millisecond,
