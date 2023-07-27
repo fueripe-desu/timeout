@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:timeout/src/constants.dart';
 
@@ -95,7 +94,7 @@ class Snapshot {
         minute,
         second,
         millisecond,
-      ).toUtc().millisecondsSinceEpoch;
+      ).millisecondsSinceEpoch;
     } catch (err) {
       rethrow;
     }
