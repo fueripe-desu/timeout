@@ -4,6 +4,10 @@ class TimeConstants {
   static const int secondsInMinute = 60;
   static const int millisecondsInSecond = 1000;
 
+  static const int millisecondsInYear = millisecondsInDay * 365;
+
+  static const int millisecondsInLeapYear = millisecondsInDay * 366;
+
   static const int millisecondsInDay =
       hoursInDay * minutesInHour * secondsInMinute * millisecondsInSecond;
 

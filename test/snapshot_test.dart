@@ -680,6 +680,310 @@ void main() {
     });
   });
 
+  group("Snapshot endOfDay getter", () {
+    test('should return a Snapshot representing the end of the day', () {
+      final snapshot = Snapshot(
+        year: 2023,
+        month: 7,
+        day: 24,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      final endOfDaySnapshot = snapshot.endOfDay;
+
+      expect(endOfDaySnapshot.year, 2023);
+      expect(endOfDaySnapshot.month, 7);
+      expect(endOfDaySnapshot.day, 24);
+      expect(endOfDaySnapshot.hour, 23);
+      expect(endOfDaySnapshot.minute, 59);
+      expect(endOfDaySnapshot.second, 59);
+      expect(endOfDaySnapshot.millisecond, 999);
+    });
+  });
+
+  group('Snapshot fromEpochTime() factory', () {
+    test(
+        'should create a Snapshot and convert back to milliseconds since epoch without using UTC',
+        () {
+      final firstSnapshot = Snapshot(
+        year: 2021,
+        month: 7,
+        day: 29,
+        hour: 22,
+        minute: 11,
+        second: 25,
+        millisecond: 0,
+      );
+
+      final epochTime = firstSnapshot.epochTime;
+
+      final fromEpochTime = Snapshot.fromEpochTime(epochTime, false);
+
+      expect(fromEpochTime.year, firstSnapshot.year);
+      expect(fromEpochTime.month, firstSnapshot.month);
+      expect(fromEpochTime.day, firstSnapshot.day);
+      expect(fromEpochTime.hour, firstSnapshot.hour);
+      expect(fromEpochTime.minute, firstSnapshot.minute);
+      expect(fromEpochTime.second, firstSnapshot.second);
+      expect(fromEpochTime.millisecond, firstSnapshot.millisecond);
+    });
+  });
+
+  group("Snapshot endOfYear getter", () {
+    test('should return the end of the year', () {
+      // Arrange
+      final snapshot = Snapshot(
+        year: 2023,
+        month: 6,
+        day: 10,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      // Act
+      final endOfYearSnapshot = snapshot.endOfYear;
+
+      // Assert
+      expect(endOfYearSnapshot.year, 2023);
+      expect(endOfYearSnapshot.month, 12);
+      expect(endOfYearSnapshot.day, 31);
+      expect(endOfYearSnapshot.hour, 23);
+      expect(endOfYearSnapshot.minute, 59);
+      expect(endOfYearSnapshot.second, 59);
+      expect(endOfYearSnapshot.millisecond, 999);
+    });
+  });
+
+  group('Snapshot endOfMonth getter', () {
+    test('should return the end of February for a non-leap year', () {
+      // Arrange
+      final snapshot = Snapshot(
+        year: 2023,
+        month: 2,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      // Act
+      final endOfMonthSnapshot = snapshot.endOfMonth;
+
+      // Assert
+      expect(endOfMonthSnapshot.year, 2023);
+      expect(endOfMonthSnapshot.month, 2);
+      expect(endOfMonthSnapshot.day, 28); // February 2023 has 28 days.
+      expect(endOfMonthSnapshot.hour, 23);
+      expect(endOfMonthSnapshot.minute, 59);
+      expect(endOfMonthSnapshot.second, 59);
+      expect(endOfMonthSnapshot.millisecond, 999);
+    });
+
+    test('should return the end of February for a leap year', () {
+      // Arrange
+      final snapshot = Snapshot(
+        year: 2024,
+        month: 2,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      // Act
+      final endOfMonthSnapshot = snapshot.endOfMonth;
+
+      // Assert
+      expect(endOfMonthSnapshot.year, 2024);
+      expect(endOfMonthSnapshot.month, 2);
+      expect(endOfMonthSnapshot.day,
+          29); // February 2024 is a leap year with 29 days.
+      expect(endOfMonthSnapshot.hour, 23);
+      expect(endOfMonthSnapshot.minute, 59);
+      expect(endOfMonthSnapshot.second, 59);
+      expect(endOfMonthSnapshot.millisecond, 999);
+    });
+
+    test('should return the end of April', () {
+      // Arrange
+      final snapshot = Snapshot(
+        year: 2023,
+        month: 4,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      // Act
+      final endOfMonthSnapshot = snapshot.endOfMonth;
+
+      // Assert
+      expect(endOfMonthSnapshot.year, 2023);
+      expect(endOfMonthSnapshot.month, 4);
+      expect(endOfMonthSnapshot.day, 30); // April 2023 has 30 days.
+      expect(endOfMonthSnapshot.hour, 23);
+      expect(endOfMonthSnapshot.minute, 59);
+      expect(endOfMonthSnapshot.second, 59);
+      expect(endOfMonthSnapshot.millisecond, 999);
+    });
+
+    test('should return the end of June', () {
+      // Arrange
+      final snapshot = Snapshot(
+        year: 2023,
+        month: 6,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      // Act
+      final endOfMonthSnapshot = snapshot.endOfMonth;
+
+      // Assert
+      expect(endOfMonthSnapshot.year, 2023);
+      expect(endOfMonthSnapshot.month, 6);
+      expect(endOfMonthSnapshot.day, 30); // June 2023 has 30 days.
+      expect(endOfMonthSnapshot.hour, 23);
+      expect(endOfMonthSnapshot.minute, 59);
+      expect(endOfMonthSnapshot.second, 59);
+      expect(endOfMonthSnapshot.millisecond, 999);
+    });
+
+    test('should return the end of September', () {
+      // Arrange
+      final snapshot = Snapshot(
+        year: 2023,
+        month: 9,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      // Act
+      final endOfMonthSnapshot = snapshot.endOfMonth;
+
+      // Assert
+      expect(endOfMonthSnapshot.year, 2023);
+      expect(endOfMonthSnapshot.month, 9);
+      expect(endOfMonthSnapshot.day, 30); // September 2023 has 30 days.
+      expect(endOfMonthSnapshot.hour, 23);
+      expect(endOfMonthSnapshot.minute, 59);
+      expect(endOfMonthSnapshot.second, 59);
+      expect(endOfMonthSnapshot.millisecond, 999);
+    });
+
+    test('should return the end of November', () {
+      // Arrange
+      final snapshot = Snapshot(
+        year: 2023,
+        month: 11,
+        day: 1,
+        hour: 12,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      // Act
+      final endOfMonthSnapshot = snapshot.endOfMonth;
+
+      // Assert
+      expect(endOfMonthSnapshot.year, 2023);
+      expect(endOfMonthSnapshot.month, 11);
+      expect(endOfMonthSnapshot.day, 30); // November 2023 has 30 days.
+      expect(endOfMonthSnapshot.hour, 23);
+      expect(endOfMonthSnapshot.minute, 59);
+      expect(endOfMonthSnapshot.second, 59);
+      expect(endOfMonthSnapshot.millisecond, 999);
+    });
+  });
+
+  group("Snapshot endOfHour getter", () {
+    test('should return a Snapshot representing the end of the hour', () {
+      final snapshot = Snapshot(
+        year: 2023,
+        month: 7,
+        day: 24,
+        hour: 15,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      final endOfHourSnapshot = snapshot.endOfHour;
+
+      expect(endOfHourSnapshot.year, 2023);
+      expect(endOfHourSnapshot.month, 7);
+      expect(endOfHourSnapshot.day, 24);
+      expect(endOfHourSnapshot.hour, 15);
+      expect(endOfHourSnapshot.minute, 59);
+      expect(endOfHourSnapshot.second, 59);
+      expect(endOfHourSnapshot.millisecond, 999);
+    });
+  });
+
+  group("Snapshot endOfMinute getter", () {
+    test('should return a Snapshot representing the end of the minute', () {
+      final snapshot = Snapshot(
+        year: 2023,
+        month: 7,
+        day: 24,
+        hour: 15,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      final endOfMinuteSnapshot = snapshot.endOfMinute;
+
+      expect(endOfMinuteSnapshot.year, 2023);
+      expect(endOfMinuteSnapshot.month, 7);
+      expect(endOfMinuteSnapshot.day, 24);
+      expect(endOfMinuteSnapshot.hour, 15);
+      expect(endOfMinuteSnapshot.minute, 30);
+      expect(endOfMinuteSnapshot.second, 59);
+      expect(endOfMinuteSnapshot.millisecond, 999);
+    });
+  });
+
+  group("Snapshot endOfSecond getter", () {
+    test('should return a Snapshot representing the end of the second', () {
+      final snapshot = Snapshot(
+        year: 2023,
+        month: 7,
+        day: 24,
+        hour: 15,
+        minute: 30,
+        second: 45,
+        millisecond: 500,
+      );
+
+      final endOfSecondSnapshot = snapshot.endOfSecond;
+
+      expect(endOfSecondSnapshot.year, 2023);
+      expect(endOfSecondSnapshot.month, 7);
+      expect(endOfSecondSnapshot.day, 24);
+      expect(endOfSecondSnapshot.hour, 15);
+      expect(endOfSecondSnapshot.minute, 30);
+      expect(endOfSecondSnapshot.second, 45);
+      expect(endOfSecondSnapshot.millisecond, 999);
+    });
+  });
+
   group("Snapshot hashCode method", () {
     test('should return the same hash code for equal Snapshots', () {
       final snapshot1 = Snapshot(

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
+import 'package:timeout/src/constants.dart';
 
 import 'snapshot_exceptions.dart';
 
@@ -94,7 +94,7 @@ class Snapshot {
         minute,
         second,
         millisecond,
-      ).toUtc().millisecondsSinceEpoch;
+      ).millisecondsSinceEpoch;
     } catch (err) {
       rethrow;
     }
@@ -115,6 +115,23 @@ class Snapshot {
   }
 
   factory Snapshot.fromDateTime(DateTime datetime) {
+    return Snapshot(
+      millisecond: datetime.millisecond,
+      second: datetime.second,
+      minute: datetime.minute,
+      hour: datetime.hour,
+      day: datetime.day,
+      month: datetime.month,
+      year: datetime.year,
+    );
+  }
+
+  factory Snapshot.fromEpochTime(int millisecondsSinceEpoch, bool isUtc) {
+    final datetime = DateTime.fromMillisecondsSinceEpoch(
+      millisecondsSinceEpoch,
+      isUtc: isUtc,
+    );
+
     return Snapshot(
       millisecond: datetime.millisecond,
       second: datetime.second,
@@ -192,6 +209,66 @@ class Snapshot {
 
   bool get isLeapYear => _isLeapYear(year);
   int get daysInMonth => _daysInMonth(month, year);
+
+  Snapshot get endOfYear => Snapshot(
+        year: year,
+        month: 12,
+        day: 31,
+        hour: 23,
+        minute: 59,
+        second: 59,
+        millisecond: 999,
+      );
+
+  Snapshot get endOfMonth => Snapshot(
+        year: year,
+        month: month,
+        day: _daysInMonth(month, year),
+        hour: 23,
+        minute: 59,
+        second: 59,
+        millisecond: 999,
+      );
+
+  Snapshot get endOfDay => Snapshot(
+        year: year,
+        month: month,
+        day: day,
+        hour: 23,
+        minute: 59,
+        second: 59,
+        millisecond: 999,
+      );
+
+  Snapshot get endOfHour => Snapshot(
+        year: year,
+        month: month,
+        day: day,
+        hour: hour,
+        minute: 59,
+        second: 59,
+        millisecond: 999,
+      );
+
+  Snapshot get endOfMinute => Snapshot(
+        year: year,
+        month: month,
+        day: day,
+        hour: hour,
+        minute: minute,
+        second: 59,
+        millisecond: 999,
+      );
+
+  Snapshot get endOfSecond => Snapshot(
+        year: year,
+        month: month,
+        day: day,
+        hour: hour,
+        minute: minute,
+        second: second,
+        millisecond: 999,
+      );
 
   bool _isLeapYear(int year) {
     return year % 4 == 0 && (!(year % 100 == 0) || year % 400 == 0);
